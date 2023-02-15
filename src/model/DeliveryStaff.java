@@ -1,4 +1,4 @@
-package oodms.model;
+package model;
 
 public class DeliveryStaff {
     
