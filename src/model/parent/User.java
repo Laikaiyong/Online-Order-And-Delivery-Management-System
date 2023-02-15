@@ -1,6 +1,6 @@
-package oodms.model;
+package model.parent;
 
-import oodms.misc.Security;
+import misc.Security;
 
 public class User {
     // Login to Access System. 
@@ -9,9 +9,7 @@ public class User {
         Security secureAgent = new Security();
         secureAgent.decrypt(password);
     }
-    
-// Login to Access system. 
-//
+
 // View and select Orders for Delivery. 
 //
 // Take Feedback and Update Delivery Status. 

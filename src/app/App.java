@@ -1,11 +1,12 @@
-package oodms;
+package app;
+import view.*;
 
-public class Oodms {
+public class App {
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        new Splash().run();
     }
     
 }
