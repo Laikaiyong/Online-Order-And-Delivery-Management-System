@@ -32,19 +32,20 @@ public class Splash extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        loadingProgress.setForeground(new java.awt.Color(255, 204, 153));
+        loadingProgress.setForeground(new java.awt.Color(255, 204, 102));
         loadingProgress.setStringPainted(true);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delivery_small.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Poppins", 1, 22)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 204, 153));
+        jLabel1.setForeground(new java.awt.Color(255, 204, 102));
         jLabel1.setText("Delivery Management System");
 
         jLabel3.setFont(new java.awt.Font("Poppins", 1, 22)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 204, 153));
+        jLabel3.setForeground(new java.awt.Color(255, 204, 102));
         jLabel3.setText("Online Order");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -55,9 +56,6 @@ public class Splash extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(56, 56, 56)
@@ -65,7 +63,10 @@ public class Splash extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(138, 138, 138)
                                 .addComponent(jLabel3)))
-                        .addGap(0, 58, Short.MAX_VALUE)))
+                        .addGap(0, 58, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

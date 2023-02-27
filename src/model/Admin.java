@@ -11,33 +11,37 @@ import model.parent.User;
  * @author USER
  */
 public class Admin extends User{
+    /**
+    * Constructor
+    * For empty new user
+    */
+    public Admin()
+    {
+        this.username = "";
+        this.personalId = "";
+        this.gender = 'U';
+        this.password = "";
+    }
+
+    /**
+    * Constructor
+    * For existing Booking Request from Data Reading
+     * @param newUsername
+     * @param newPersonalId
+     * @param newPassword
+     * @param newGender
+    */
+    public Admin(
+            String newUsername, 
+            String newPersonalId, 
+            String newPassword,
+            char newGender
+    )
+    {
+        this.username = newUsername;
+        this.personalId = newPersonalId;
+        this.password = newPassword;
+        this.gender = newGender;
+    }
     
-    
-//User Management (Add/Modify/search/delete Admin & Delivery Staff)  
-//
-//Category Management (Add/Modify/search/delete Category) 
-//
-//Item Management (Add Item Category-wise/Modify/search/delete Item) 
-//
-//Display All records of  
-//
-//Item Category  
-//
-//Items, Category-wise 
-//
-//Customer Orders 
-//
-//Customer Payment 
-//
-//Search Specific record of 
-//
-//Customer Order 
-//
-//Customer Payment 
-//
-//Order Delivery Management 
-//
-//Assign orders to Delivery Staff 
-//
-//Exit  
 }

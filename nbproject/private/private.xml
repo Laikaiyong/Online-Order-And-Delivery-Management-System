@@ -3,12 +3,34 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/app/App.java</file>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/view/Items.java</file>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/service/FileHandler.java</file>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/config/itemConfig.txt</file>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/view/Splash.java</file>
-            <file>file:/C:/Users/USER/Downloads/oodms/src/view/Auth.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/user.txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/Auth.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/category.txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/customer/CartOrder.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/customer/OrderHistory.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/DeliveryStaff.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/config/productConfig.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/service/GeneraFileHandler.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Item.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Order.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/config/orderConfig,txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Customer.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/OrderHistoryView.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/config/userConfig.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Admin.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/customer/AuthedLandingPage.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/PopUp.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/config/productConfig.txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/Items.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/Register.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/parent/User.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/item.txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/customer/LandingPage.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/view/Splash.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/data/config/itemConfig.txt</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Category.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/model/Cart.java</file>
+            <file>file:/C:/Users/USER/Downloads/Online-Order-And-Delivery-Management-System/src/app/App.java</file>
         </group>
     </open-files>
 </project-private>

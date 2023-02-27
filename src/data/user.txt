@@ -1,0 +1,6 @@
+admin, 4427865b-8711-4dd1-83f9-cef3c85131ad, Admin1, 
+deliverystaff, d22e0c58-c81a-433f-a3f0-e4531eb0d144, DeliveryStaff1, 
+deliverystaff, 518b142f-b605-43d7-a801-64c9c014090c, DeliveryStaff2, 
+customer, 40b67ef8-2ad1-43ed-bc89-667d54cec70d, Customer1, 
+customer, 675d604b-22ab-495d-85b2-208d6597c0ff, Alex, 
+customer, 411a4f0b-2f46-4d24-8af2-ce18042b3647, Ginny, 
