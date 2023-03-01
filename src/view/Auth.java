@@ -4,11 +4,24 @@
  */
 package view;
 
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import model.parent.User;
+import service.ShoppingController;
+import service.UserController;
+import view.admin.BusinessDashboard;
+import view.customer.AuthedLandingPage;
+import view.customer.LandingPage;
+import view.deliveryStaff.DeliveryQueue;
+
 /**
  *
  * @author USER
  */
 public class Auth extends javax.swing.JFrame {
+    public UserController userController = new UserController();
+//    public ShoppingController shoppingController = new ShoppingController(userController);
 
     /**
      * Creates new form Index
@@ -17,6 +30,49 @@ public class Auth extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    private String Authenticate()
+    {
+        String name = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (name.equals("") || password.equals(""))
+        {
+            new PopUp().errorMessage("Please fill in every field", "Empty Field");
+        }
+        else
+        {
+                    
+            String[] loginId = new User().login(userController, name, password).split(" ");
+            if (!loginId[1].equals(""))
+            {
+                userController.setLoginedUserId(loginId[1]);
+                new PopUp().successMessage("Login Successfully", "Success");
+                setVisible(false);
+                switch (loginId[0]) {
+                    case "admin":
+                        new BusinessDashboard().setVisible(true);
+                        break;
+                    case "deliverystaff":
+                        new DeliveryQueue().setVisible(true);
+                        break;
+                    case "customer":
+                        new AuthedLandingPage().setVisible(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                usernameField.setText("");
+                passwordField.setText("");
+                new PopUp().errorMessage("Invalid credentials, try again", "Login Error");
+            }
+        }
+        return "";
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +89,7 @@ public class Auth extends javax.swing.JFrame {
         passwordField = new javax.swing.JTextField();
         forgotPasswordTrigger = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        signInButton = new javax.swing.JButton();
         guestButton = new javax.swing.JButton();
         Register = new javax.swing.JButton();
 
@@ -52,6 +108,17 @@ public class Auth extends javax.swing.JFrame {
                 usernameFieldActionPerformed(evt);
             }
         });
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameFieldKeyPressed(evt);
+            }
+        });
+
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
 
         forgotPasswordTrigger.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         forgotPasswordTrigger.setForeground(new java.awt.Color(255, 204, 102));
@@ -66,15 +133,25 @@ public class Auth extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel5.setText("Password");
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 102));
-        jButton2.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jButton2.setText("Sign In");
+        signInButton.setBackground(new java.awt.Color(255, 204, 102));
+        signInButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        signInButton.setForeground(new java.awt.Color(0, 0, 0));
+        signInButton.setText("Sign In");
+        signInButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signInButtonActionPerformed(evt);
+            }
+        });
 
         guestButton.setBackground(new java.awt.Color(255, 204, 102));
         guestButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         guestButton.setForeground(new java.awt.Color(0, 0, 0));
         guestButton.setText("Guest View");
+        guestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guestButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,7 +159,7 @@ public class Auth extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(76, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(signInButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(guestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(93, 93, 93))
@@ -115,7 +192,7 @@ public class Auth extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guestButton)
-                    .addComponent(jButton2))
+                    .addComponent(signInButton))
                 .addGap(46, 46, 46))
         );
 
@@ -159,16 +236,41 @@ public class Auth extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        new Register().setVisible(true);
     }//GEN-LAST:event_RegisterActionPerformed
 
     private void forgotPasswordTriggerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordTriggerMouseClicked
-        // TODO add your handling code here:
+        setVisible(false);
+        new ResetPassword().setVisible(true);
     }//GEN-LAST:event_forgotPasswordTriggerMouseClicked
+
+    private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
+        Authenticate();
+    }//GEN-LAST:event_signInButtonActionPerformed
+
+    private void guestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guestButtonActionPerformed
+        setVisible(false);
+        new LandingPage().setVisible(true);
+    }//GEN-LAST:event_guestButtonActionPerformed
+
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            Authenticate();
+        }
+    }//GEN-LAST:event_passwordFieldKeyPressed
+
+    private void usernameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_TAB)
+        {
+            passwordField.setEnabled(true);
+        }
+    }//GEN-LAST:event_usernameFieldKeyPressed
 
     /**
      * @param args the command line arguments
@@ -212,12 +314,12 @@ public class Auth extends javax.swing.JFrame {
     private javax.swing.JButton Register;
     private javax.swing.JLabel forgotPasswordTrigger;
     private javax.swing.JButton guestButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField passwordField;
+    private javax.swing.JButton signInButton;
     private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }

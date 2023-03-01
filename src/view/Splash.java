@@ -4,6 +4,8 @@
  */
 package view;
 
+import service.GeneraFileHandler;
+
 /**
  *
  * @author USER

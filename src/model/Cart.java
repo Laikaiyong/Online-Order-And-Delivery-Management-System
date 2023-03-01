@@ -5,13 +5,20 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.UUID;
+
 
 abstract class ShoppingGuides {
-    protected UUID recordId;
+    protected String recordId;
     protected ArrayList<Item> products; 
-    protected boolean checkout() {
-        return false;
+    protected Customer customer;
+    protected String serializeProducts() {
+        String productIds = "";
+        for (Item product: this.products)
+        {
+            productIds += product.getProductId() + "$";
+        }
+        
+        return productIds;
     }
 }
 
@@ -20,5 +27,69 @@ abstract class ShoppingGuides {
  * @author USER
  */
 public class Cart extends ShoppingGuides {
+    public Cart() {}
+
+    public Cart(
+            String recordId, 
+            ArrayList<Item> products,
+            Customer customer
+    ) {
+        this.recordId = recordId;
+        this.products = products;
+        this.customer = customer;
+    }
     
+    @Override
+    public String serializeProducts()
+    {
+        String productIds = "";
+        for (Item product: this.products)
+        {
+            productIds += product.getProductId() + "&";
+        }
+        
+        return productIds;
+    }
+    
+    
+    public void addItem(Item product)
+    {
+        this.products.add(product);
+    }
+    
+    public void removeItem(Item product)
+    {
+        this.products.remove(product);
+    }
+    
+    public String getRecordId()
+    {
+        return this.recordId;
+    }
+    
+    public ArrayList<Item> getProducts()
+    {
+        return this.products;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+    
+    
+    
+    public void setRecordId(String id)
+    {
+        this.recordId = id;
+    }
+    
+    public void setProducts(ArrayList<Item> products)
+    {
+        this.products = products;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+     
 }

@@ -1,15 +1,22 @@
 package model.parent;
 
-import misc.Security;
+import service.Security;
+import model.Admin;
+import model.Customer;
+import model.DeliveryStaff;
+import service.UserController;
 
 public class User {
      /**
      * Attributes
      */
-    public String personalId;
-    public String username;
-    public String password;
-    public char gender;
+    private String personalId;
+    private String username;
+    private String password;
+    private char gender;
+
+    public User() {
+    }
     
     /*
     * Setters
@@ -58,10 +65,51 @@ public class User {
     }
     
     // Login to Access System. 
-    public Object login(String username, String password)
+    public String login(UserController controller, String username, String password)
     {
         Security secureAgent = new Security();
-        secureAgent.decrypt(password);
-        return new User();
+        String decryptedPassword = secureAgent.decrypt(password);
+        
+        for (Admin admin: controller.admins) {
+            if (
+                admin.getUsername().equals(username) && 
+                admin.getPassword().equals(decryptedPassword)
+            )
+            {
+                return "admin " + admin.getPersonalId();
+            }
+        }
+        
+        for (DeliveryStaff staff: controller.deliveryStaff) {
+            if (
+                staff.getUsername().equals(username) && 
+                staff.getPassword().equals(decryptedPassword)
+            )
+            {
+                return "deliverystaff " + staff.getPersonalId();
+            }
+        }
+                
+        for (Customer customer: controller.customers) {
+            if (
+                customer.getUsername().equals(username) && 
+                customer.getPassword().equals(decryptedPassword)
+            )
+            {
+                return "customer " + customer.getPersonalId();
+            }
+        }
+        
+        return "";
+    }
+    
+    public boolean resetPassword(String newPassword, String matchingPassword)
+    {
+        if (newPassword.equals(matchingPassword))
+        {
+            this.setPassword(newPassword);
+            return true;
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.net.ResponseCache;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -30,11 +31,28 @@ public class PopUp {
            content,
            messageTitle, 
            JOptionPane.INFORMATION_MESSAGE, 
-           successIcon);
+           successIcon
+        );
     }
     
     public void infoMessage(String messageTitle, String content)
     {
-        
+        JOptionPane.showMessageDialog(
+            null, 
+           content,
+           messageTitle, 
+           JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+    
+    public int confirmationDialog(String messageTitle, String content)
+    {
+        int response = JOptionPane.showConfirmDialog(
+            null, 
+            content,
+            messageTitle,
+            JOptionPane.YES_NO_OPTION
+        );
+        return response;
     }
 }

@@ -5,32 +5,123 @@
 package model;
 
 import java.util.ArrayList;
-import misc.Security;
+import service.Security;
 import model.parent.User;
+import service.GeneraFileHandler;
+import service.ShoppingController;
+import service.UUIDGenerator;
+import service.UserController;
 
 /**
  *
  * @author USER
  */
 public class Customer extends User {
-    private char gender;
     private String email;
-    private ArrayList<Cart> cart;
-    private ArrayList<Item> products;
+    private String address;
+    private String phoneNumber;
+    
+    /**
+    * Constructor
+    * For empty new user
+    */
+    public Customer()
+    {
+        super.setUsername("");
+        super.setPersonalId("");
+        super.setPassword("");
+        super.setGender('U');
+        this.email = "";
+        this.address = "";
+        this.phoneNumber = "";
+    }
+
+    /**
+    * Constructor
+    * For existing Booking Request from Data Reading
+     * @param newUsername
+     * @param newPersonalId
+     * @param newPassword
+     * @param newGender
+     * @param email
+     * @param address
+     * @param phoneNumber
+    */
+    public Customer(
+            String newUsername, 
+            String newPersonalId, 
+            String newPassword,
+            char newGender,
+            String email,
+            String address,
+            String phoneNumber
+    )
+    {
+        super.setUsername(newUsername);
+        super.setPersonalId(newPersonalId);
+        super.setPassword(newPassword);
+        super.setGender(newGender);
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     
     // Register in System. 
-    public void register(String username, String password)
-    {
+    public Customer register(
+            String username,
+            String password
+    ) {
+        String personalId = new UUIDGenerator().generateUniqueKey();
         Security secureAgent = new Security();
-        secureAgent.encrypt(password);
+        String encryptedPass = secureAgent.encrypt(password);
+        
+        Customer newCustomer = new Customer();
+        newCustomer.setPersonalId(personalId);
+        newCustomer.setUsername(username);
+        newCustomer.setPassword(encryptedPass);
+        return newCustomer;
     }
     
     
     // View and select Orders for Delivery. 
-    public ArrayList<Item> getCart()
+    public void payOrder(Order order)
     {
-        ArrayList<Cart> personalCart = new ArrayList<Cart>();
-        ArrayList<Item> products = new ArrayList<Item>();
-        return products;
+        order.setPaidStatus(true);
+    }
+    
+    // View and select Orders for Delivery. 
+    public void submitFeedback(
+        String review,
+        int rating,
+        Order order
+    ) {
+        Feedback feedback = new Feedback();
+        feedback.setReview(review);
+        feedback.setRating(rating);
+        feedback.setOrderId(order.getRecordId());
     }
 }

@@ -1,4 +1,5 @@
 package app;
+import service.UserController;
 import view.*;
 
 public class App {
@@ -8,5 +9,4 @@ public class App {
     public static void main(String[] args) {
         new Splash().run();
     }
-    
 }
