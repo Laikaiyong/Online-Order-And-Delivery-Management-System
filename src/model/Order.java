@@ -134,4 +134,37 @@ public class Order extends ShoppingGuides {
     public void setStaff(DeliveryStaff staff) {
         this.staff = staff;
     }
+
+    public String generateReceipt()
+    {
+        String pattern = "xxxxxxxxxxxxxx";
+        return "\n\nOrder details:\n\nOrder Id: #" + this.getRecordId() + 
+        "\n\nCustomer Details\n" + pattern + "\n" +
+        "Customer Id:\t\t" + this.getCustomer().getPersonalId() + "\n" +
+        "Customer Name:\t\t" + this.getCustomer().getUsername() + "\n" +
+        "Gender:\t\t" + record.getCustomer().getGender() + "\n" +
+        "E-mail:\t\t" + record.getCustomer().getEmail() + "\n" +
+        "Contact Number:\t" + record.getCustomer().getContactNumber() + "\n" +
+        "\n\nBooking Details\n" + pattern + "\n" +
+        "Room Id:\t\t" + record.getBookedRoom() + "\n" +
+        "Dates:\t\t" + record.getStartDate() + " to " + 
+        record.getEndDate() + " (" + record.getStayDays() + " days)\n" +
+        "Room Charges: \tRM " + 
+        String.format("%.2f", new BigDecimal(record.getNightPay())) + "\n" +
+        "Extra Charges: \tRM " + String.format("%.2f ", new BigDecimal(record.getExtraCharges())) + "\n" +
+        "Service Taxes:  \tRM " + String.format("%.2f", new BigDecimal(record.getServiceTax())) + "\n" +
+        "Tourism Taxes:   \tRM " + String.format("%.2f", new BigDecimal(record.getTourismTax())) + "\n" +
+        "Total Taxes:\t\tRM "+ String.format("%.2f", new BigDecimal(record.getTotalTax())) + "\n" +
+        "Total Payment: \tRM " + String.format("%.2f", new BigDecimal(record.getTotalPayment())) + "\n" + pattern
+    }
+
+    public float calculateTotal()
+    {
+        float totalPrice = 0f;
+        for (Item item: this.products)
+        {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
 }

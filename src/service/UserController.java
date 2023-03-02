@@ -5,9 +5,11 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.Admin;
 import model.Customer;
 import model.DeliveryStaff;
+import model.Feedback;
 
 /**
  *
@@ -81,16 +83,28 @@ public class UserController {
     
     public Customer filteredCustomerId(String id)
     {
-        
+        List<Customer> list = (List<Customer>) this.customers.clone();
+        list.removeIf(cus -> 
+                !cus.getPersonalId().equals(id)
+        );
+        return new ArrayList<>(list).get(0);
     }
     
     public Admin filteredAdminId(String id)
     {
-        
+        List<Admin> list = (List<Admin>) this.admins.clone();
+        list.removeIf(admin -> 
+                !admin.getPersonalId().equals(id)
+        );
+        return new ArrayList<>(list).get(0);
     }
         
     public DeliveryStaff filteredDeliveryStaffId(String id)
     {
-        
+        List<DeliveryStaff> list = (List<DeliveryStaff>) this.deliveryStaff.clone();
+        list.removeIf(staff -> 
+                !staff.getPersonalId().equals(id)
+        );
+        return new ArrayList<>(list).get(0);
     }
 }

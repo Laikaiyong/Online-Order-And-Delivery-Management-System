@@ -21,7 +21,7 @@ import view.deliveryStaff.DeliveryQueue;
  */
 public class Auth extends javax.swing.JFrame {
     public UserController userController = new UserController();
-//    public ShoppingController shoppingController = new ShoppingController(userController);
+    public ShoppingController shoppingController = new ShoppingController(userController);
 
     /**
      * Creates new form Index
@@ -42,25 +42,30 @@ public class Auth extends javax.swing.JFrame {
         }
         else
         {
-                    
-            String[] loginId = new User().login(userController, name, password).split(" ");
-            if (!loginId[1].equals(""))
+            String loginId = new User().login(userController, name, password);
+            System.out.println(loginId);
+            if (!loginId.equals(""))
             {
-                userController.setLoginedUserId(loginId[1]);
-                new PopUp().successMessage("Login Successfully", "Success");
-                setVisible(false);
-                switch (loginId[0]) {
-                    case "admin":
-                        new BusinessDashboard().setVisible(true);
-                        break;
-                    case "deliverystaff":
-                        new DeliveryQueue().setVisible(true);
-                        break;
-                    case "customer":
-                        new AuthedLandingPage().setVisible(true);
-                        break;
-                    default:
-                        break;
+                String[] roleCredentials = loginId.split(" ");
+                if (!roleCredentials[1].equals(""))
+                {
+                    userController.setLoginedUserId(roleCredentials[1]);
+                    new PopUp().successMessage("Login Successfully", "Success");
+                    setVisible(false);
+                    switch (roleCredentials[0]) {
+                        case "admin" -> new BusinessDashboard().setVisible(true);
+                        case "deliverystaff" -> new DeliveryQueue().setVisible(true);
+                        case "customer" -> new AuthedLandingPage().setVisible(true);
+                        default -> {
+                        }
+                    }
+                }
+                else
+                {
+                    usernameField.setText("");
+                    passwordField.setText("");
+                    new PopUp().errorMessage("Invalid credentials, try again", "Login Error");
+                    return "Fail";
                 }
             }
             else
@@ -68,6 +73,7 @@ public class Auth extends javax.swing.JFrame {
                 usernameField.setText("");
                 passwordField.setText("");
                 new PopUp().errorMessage("Invalid credentials, try again", "Login Error");
+                return "Fail";
             }
         }
         return "";
@@ -87,7 +93,6 @@ public class Auth extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JTextField();
-        forgotPasswordTrigger = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         signInButton = new javax.swing.JButton();
         guestButton = new javax.swing.JButton();
@@ -117,16 +122,6 @@ public class Auth extends javax.swing.JFrame {
         passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 passwordFieldKeyPressed(evt);
-            }
-        });
-
-        forgotPasswordTrigger.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        forgotPasswordTrigger.setForeground(new java.awt.Color(255, 204, 102));
-        forgotPasswordTrigger.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        forgotPasswordTrigger.setText("Forgot Password");
-        forgotPasswordTrigger.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                forgotPasswordTriggerMouseClicked(evt);
             }
         });
 
@@ -170,10 +165,8 @@ public class Auth extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(forgotPasswordTrigger, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(usernameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(passwordField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(usernameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -187,9 +180,7 @@ public class Auth extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(forgotPasswordTrigger)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guestButton)
                     .addComponent(signInButton))
@@ -243,11 +234,6 @@ public class Auth extends javax.swing.JFrame {
         setVisible(false);
         new Register().setVisible(true);
     }//GEN-LAST:event_RegisterActionPerformed
-
-    private void forgotPasswordTriggerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordTriggerMouseClicked
-        setVisible(false);
-        new ResetPassword().setVisible(true);
-    }//GEN-LAST:event_forgotPasswordTriggerMouseClicked
 
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
         Authenticate();
@@ -312,7 +298,6 @@ public class Auth extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Register;
-    private javax.swing.JLabel forgotPasswordTrigger;
     private javax.swing.JButton guestButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

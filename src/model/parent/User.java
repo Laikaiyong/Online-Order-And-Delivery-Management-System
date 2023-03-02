@@ -67,23 +67,21 @@ public class User {
     // Login to Access System. 
     public String login(UserController controller, String username, String password)
     {
-        Security secureAgent = new Security();
-        String decryptedPassword = secureAgent.decrypt(password);
-        
         for (Admin admin: controller.admins) {
             if (
                 admin.getUsername().equals(username) && 
-                admin.getPassword().equals(decryptedPassword)
+                admin.getPassword().equals(password)
             )
             {
-                return "admin " + admin.getPersonalId();
+                String id = admin.getPersonalId();
+                return "admin " + id;
             }
         }
         
         for (DeliveryStaff staff: controller.deliveryStaff) {
             if (
                 staff.getUsername().equals(username) && 
-                staff.getPassword().equals(decryptedPassword)
+                staff.getPassword().equals(password)
             )
             {
                 return "deliverystaff " + staff.getPersonalId();
@@ -93,7 +91,7 @@ public class User {
         for (Customer customer: controller.customers) {
             if (
                 customer.getUsername().equals(username) && 
-                customer.getPassword().equals(decryptedPassword)
+                customer.getPassword().equals(password)
             )
             {
                 return "customer " + customer.getPersonalId();
@@ -101,15 +99,5 @@ public class User {
         }
         
         return "";
-    }
-    
-    public boolean resetPassword(String newPassword, String matchingPassword)
-    {
-        if (newPassword.equals(matchingPassword))
-        {
-            this.setPassword(newPassword);
-            return true;
-        }
-        return false;
     }
 }

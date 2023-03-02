@@ -1,2 +1,2 @@
-f12c544b-b1e4-4697-9f13-2187acdf0dba, Electronics, Electronice appliances for household, engineering
-fd2f7122-a15c-4d2e-8f35-98e5735d17f5, Clothing, Tops, shirts and bottoms.
+9fd8523a-0f29-4dd0-b915-73e00b01b855, Electronics, Electronice appliances for household engineering
+26abb68a-67a5-41f3-bc92-a78f7d387344, Clothing, Tops shirts and bottoms.

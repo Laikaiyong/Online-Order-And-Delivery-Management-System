@@ -51,13 +51,14 @@ public class GeneraFileHandler {
 
                 printWriter.append(
                     String.format(
-                        "%s, %s, %s, %f, %s, %b, %s\n",
+                        "%s, %s, %s, %f, %s, %b, %s, %s\n",
                         record.getRecordId(),
                         record.serializeProducts(),
                         record.getCustomer().getPersonalId(),
                         record.getTotalPrice(),
                         record.getDeliveryStatus(),
                         record.getPaidStatus(),
+                        record.getCreated().toString(),
                         record.getStaff().getPersonalId()
                     )
                 );
@@ -90,7 +91,7 @@ public class GeneraFileHandler {
                 while(input.hasNextLine()){
                     String line = input.nextLine();
                     String[] orderInformation = line.split(", ");
-                    ArrayList<Item> items = new ShoppingController()
+                    ArrayList<Item> items = controller
                             .filteredItem(orderInformation[1].split("$"));
                     Order order = new Order(
                             orderInformation[0],
@@ -231,7 +232,7 @@ public class GeneraFileHandler {
             }       
             else
             {
-                System.out.println("Record file exists.");
+                System.out.println("Record Item file exists.");
                 Scanner input = new Scanner(file);
                 while(input.hasNextLine()){
                     String line = input.nextLine();
@@ -461,7 +462,7 @@ public class GeneraFileHandler {
         
         File file = new File(this.USER_FILE_NAME);
         // Create file / Retrive data from file
-        try 
+        try
         {
             //  Initialization   
             if (file.createNewFile()) 
@@ -478,6 +479,7 @@ public class GeneraFileHandler {
                     String[] userInformation = line.split(", ");
                     if(userInformation[0].equals("admin"))
                     {
+                        System.out.println(new Security().decrypt(userInformation[3]));
                         Admin admin = new Admin(
                             userInformation[1],
                             userInformation[2],

@@ -4,6 +4,10 @@
  */
 package view.admin;
 
+import javax.swing.JOptionPane;
+import view.Auth;
+import view.PopUp;
+
 /**
  *
  * @author USER

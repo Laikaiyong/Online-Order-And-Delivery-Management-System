@@ -36,14 +36,14 @@ public class ShoppingConfig {
             new Category(
                 new UUIDGenerator().generateUniqueKey(),
                 "Electronics",
-                "Electronice appliances for household, engineering"
+                "Electronice appliances for household engineering"
             )
         );
         categories.add(
             new Category(
                 new UUIDGenerator().generateUniqueKey(),
                 "Clothing",
-                "Tops, shirts and bottoms."
+                "Tops shirts and bottoms."
             )
         );
 

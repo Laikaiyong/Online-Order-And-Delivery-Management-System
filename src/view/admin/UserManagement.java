@@ -52,7 +52,6 @@ public class UserManagement extends javax.swing.JFrame {
         nextQuery = new javax.swing.JButton();
         lastQuery = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
         bookingId = new javax.swing.JLabel();
         customerName = new javax.swing.JTextField();
         personalId = new javax.swing.JTextField();
@@ -211,16 +210,6 @@ public class UserManagement extends javax.swing.JFrame {
             }
         });
 
-        updateButton.setBackground(new java.awt.Color(255, 204, 0));
-        updateButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        updateButton.setForeground(new java.awt.Color(255, 255, 255));
-        updateButton.setText("Update");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
-
         bookingId.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         bookingId.setText("-");
 
@@ -285,8 +274,6 @@ public class UserManagement extends javax.swing.JFrame {
                                 .addComponent(customerName))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(updateButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(nextQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -334,9 +321,7 @@ public class UserManagement extends javax.swing.JFrame {
                     .addComponent(lastQuery)
                     .addComponent(previousQuery))
                 .addGap(69, 69, 69)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(updateButton)
-                    .addComponent(deleteButton))
+                .addComponent(deleteButton)
                 .addContainerGap(101, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -400,7 +385,7 @@ public class UserManagement extends javax.swing.JFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 561, Short.MAX_VALUE)
                 .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -430,124 +415,6 @@ public class UserManagement extends javax.swing.JFrame {
             searchRecord();
         }
     }//GEN-LAST:event_searchFieldKeyPressed
-
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        bookings = new BookingsConfig().bookings;
-        if(validDate && updateButton.isEnabled())
-        {
-            // Initialization + Value retrieval
-            boolean proceedable = true;
-            String selectedBooking = bookingId.getText();
-            char newGender = maleButton.isSelected() ? 'M' : 'F';
-            String newCusName = customerName.getText().trim();
-            String newPersonalId = personalId.getText().trim();
-            String newEmail = email.getText().trim();
-            String newContactNumber = contactNumber.getText().trim();
-
-            // Block process if there are empty field
-            if(
-                newCusName.isEmpty() ||
-                newPersonalId.isEmpty() ||
-                newEmail.isEmpty() ||
-                newContactNumber.isEmpty()
-            )
-            {
-                JOptionPane.showMessageDialog(
-                    null,
-                    "There are empty field that are required to be filled",
-                    "Error Update",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                proceedable = false;
-            }
-            else
-            {
-                // Block process for invalid email value
-                if(!EmailValidator.isValidEmail(newEmail))
-                {
-                    JOptionPane.showMessageDialog(
-                        null,
-                        "Email entered is in invalid format",
-                        "Error Update",
-                        JOptionPane.ERROR_MESSAGE
-                    );
-                    proceedable = false;
-                }
-            }
-
-            // Execute after validation to update record
-            if(proceedable)
-            {
-                Customer newCustomer = new Customer();
-                for(Booking record: bookings)
-                {
-                    if(record.getBookingId().equals(selectedBooking))
-                    {
-                        // Free old room and change new room to occupied
-                        if(
-                            record.getStatus().equals("CheckIn")
-                            &&
-                            !record.getBookedRoom().equals(
-                                roomIdCombo.getModel().getSelectedItem().toString()
-                            )
-                        )
-                        {
-                            for(Room room: rooms)
-                            {
-                                if(room.getRoomNumber().equals(record.getBookedRoom()))
-                                {
-                                    room.setStatus("Available");
-                                }
-                                else
-                                {
-                                    if(room.getRoomNumber().equals(
-                                        roomIdCombo.getModel().getSelectedItem().toString()
-                                    ))
-                                    {
-                                        room.setStatus("Occupied");
-                                    }
-                                }
-                            }
-                        }
-
-                        // update list
-                        newCustomer.setName(newCusName);
-                        newCustomer.setPersonalId(newPersonalId);
-                        newCustomer.setGender(newGender);
-                        newCustomer.setEmail(newEmail);
-                        newCustomer.setContactNumber(newContactNumber);
-                        record.setCustomer(newCustomer);
-                        record.setRoom(roomIdCombo.getModel().getSelectedItem().toString());
-                        record.setStartDate(startDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                        record.setEndDate(endDate.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-                    }
-                }
-                new RoomsUpdate().updateRoomDatabase(rooms);
-                new BookingController().updateBookingDatabase(bookings);
-                ImageIcon successIcon = new ImageIcon("src/img/successSmall.png");
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Record Updated",
-                    "Success Update",
-                    JOptionPane.INFORMATION_MESSAGE,
-                    successIcon
-                );
-                setVisible(false);
-                setVisible(true);
-            }
-        }
-        // Date is not validated or record is not permitted to be edit
-        else
-        {
-            System.out.println("Date is not validated");
-            JOptionPane.showMessageDialog(
-                null,
-                "Please Validate Date or Record is unable to be updated (CheckOut)",
-                "Error Update",
-                JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if(deleteButton.isEnabled())
@@ -676,7 +543,6 @@ public class UserManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
@@ -689,7 +555,6 @@ public class UserManagement extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> roleComboBox;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
-    private javax.swing.JButton updateButton;
     private javax.swing.JButton updateButton1;
     private javax.swing.JTabbedPane usersTable;
     // End of variables declaration//GEN-END:variables

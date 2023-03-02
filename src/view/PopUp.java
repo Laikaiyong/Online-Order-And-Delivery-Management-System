@@ -17,8 +17,8 @@ public class PopUp {
     {
         JOptionPane.showMessageDialog(
             null, 
-            content, 
-            messageTitle, 
+            messageTitle,
+            content,
             JOptionPane.ERROR_MESSAGE
         );
     }
@@ -28,8 +28,8 @@ public class PopUp {
         ImageIcon successIcon = new ImageIcon("src/img/successSmall.png");
         JOptionPane.showMessageDialog(
             null, 
-           content,
            messageTitle, 
+           content,
            JOptionPane.INFORMATION_MESSAGE, 
            successIcon
         );
@@ -39,8 +39,8 @@ public class PopUp {
     {
         JOptionPane.showMessageDialog(
             null, 
-           content,
-           messageTitle, 
+           messageTitle,
+           content, 
            JOptionPane.INFORMATION_MESSAGE
         );
     }
@@ -49,8 +49,8 @@ public class PopUp {
     {
         int response = JOptionPane.showConfirmDialog(
             null, 
-            content,
             messageTitle,
+            content,
             JOptionPane.YES_NO_OPTION
         );
         return response;

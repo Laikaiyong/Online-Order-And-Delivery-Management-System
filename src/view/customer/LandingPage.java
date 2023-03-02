@@ -5,10 +5,14 @@
 package view.customer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Category;
 import model.Item;
+import service.ShoppingController;
 import view.Auth;
 import view.PopUp;
 import view.Register;
@@ -24,6 +28,7 @@ public class LandingPage extends javax.swing.JFrame {
      */
     public LandingPage() {
         initComponents();
+        tableRefresh();
     }
 
     /**
@@ -38,9 +43,10 @@ public class LandingPage extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         categoryCombo = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        productsTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         exitButton = new javax.swing.JButton();
@@ -52,6 +58,19 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel2.setText("Filter");
 
         categoryCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        categoryCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                categoryComboItemStateChanged(evt);
+            }
+        });
+        categoryCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryComboActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 10)); // NOI18N
+        jLabel3.setText("Category");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -64,7 +83,9 @@ public class LandingPage extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -72,23 +93,37 @@ public class LandingPage extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(42, 42, 42)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        productsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "name", "description", "price", "quantity", "category"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(productsTable);
 
         jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
         jLabel1.setText("Products");
@@ -201,49 +236,88 @@ public class LandingPage extends javax.swing.JFrame {
         new Register().setVisible(true);
     }//GEN-LAST:event_registerButtonActionPerformed
 
+    private void categoryComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryComboActionPerformed
+
+    }//GEN-LAST:event_categoryComboActionPerformed
+
+    private void categoryComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_categoryComboItemStateChanged
+        if (categoryCombo.getSelectedItem() != null)
+        {
+           String selectedValue = categoryCombo.getSelectedItem().toString();
+           if (selectedValue.equals("Default"))
+           {
+               tableRefresh();
+           }
+           else
+           {
+               filterTable(selectedValue);
+           }
+        }
+    }//GEN-LAST:event_categoryComboItemStateChanged
+
+    private void filterTable(String category)
+    {
+        ArrayList<Item> items = new Auth().shoppingController.item;
+         // Table
+        DefaultTableModel tableModel =  (DefaultTableModel) productsTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Item item: items)
+            {
+                if (item.getCategory().getCategoryName().equals(category))
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            item.getProductId(),
+                            item.getProductName(),
+                            item.getDescription(),
+                            item.getPrice(),
+                            item.getInStockQuantity(),
+                            item.getCategory().getCategoryName()
+                        }
+                );
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
     private void tableRefresh()
     {
+        ArrayList<Item> items = new Auth().shoppingController.item;
+        ArrayList<Category> category = new Auth().shoppingController.category;
         ArrayList<String> categoryName = new ArrayList<>();
-        ArrayList<Item> productItem = new Auth().;
-                
-        for(Item room: rooms)
+        categoryName.add("Default");
+        
+        // Combobox
+        for (Category cat: category)
         {
-            validRoom.add(room.getRoomNumber());
+            categoryName.add(cat.getCategoryName());
         }
-
-        for(Booking record: bookings)
-        {
-            if(!
-                ((startingDate.isBefore(record.getStartDate()) 
-                && endingDate.isBefore(record.getStartDate()))
-                ||
-                (startingDate.isAfter(record.getEndDate())
-                && endingDate.isAfter(record.getEndDate())))
-                &&
-                (record.getStatus().equals("Booked")
-                 ||
-                 record.getStatus().equals("CheckIn"))
-            )
-            {
-                for(Room room: rooms)
-                {
-                    if(
-                            room.getRoomNumber().equals(record.getBookedRoom())
-                            ||
-                            room.getMaintenance()
-                    )
-                    {
-                        invalidRoom.add(room.getRoomNumber());
-                    }
-                }
-            }
-        }
-        HashSet<String> uniqueInvalid = new HashSet<>(invalidRoom);
-
-        validRoom.removeAll(uniqueInvalid);
-
         categoryCombo.removeAllItems();
-        categoryCombo.setModel(new DefaultComboBoxModel<>(validCategory.toArray(String[]::new)));
+        categoryCombo.setModel(new DefaultComboBoxModel<>(categoryName.toArray(String[]::new)));
+        
+        // Table
+        DefaultTableModel tableModel =  (DefaultTableModel) productsTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Item item: items)
+            {
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            item.getProductId(),
+                            item.getProductName(),
+                            item.getDescription(),
+                            item.getPrice(),
+                            item.getInStockQuantity(),
+                            item.getCategory().getCategoryName()
+                        }
+                );
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
     
     /**
@@ -275,9 +349,7 @@ public class LandingPage extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                tableRefresh();
-                
+            public void run() {             
                 new LandingPage().setVisible(true);
             }
         });
@@ -288,11 +360,12 @@ public class LandingPage extends javax.swing.JFrame {
     private javax.swing.JButton exitButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable productsTable;
     private javax.swing.JButton registerButton;
     // End of variables declaration//GEN-END:variables
 }

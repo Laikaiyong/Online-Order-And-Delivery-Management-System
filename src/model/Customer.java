@@ -31,9 +31,9 @@ public class Customer extends User {
         super.setPersonalId("");
         super.setPassword("");
         super.setGender('U');
-        this.email = "";
-        this.address = "";
-        this.phoneNumber = "";
+        this.email = "-";
+        this.address = "-";
+        this.phoneNumber = "-";
     }
 
     /**
@@ -103,25 +103,43 @@ public class Customer extends User {
         newCustomer.setPersonalId(personalId);
         newCustomer.setUsername(username);
         newCustomer.setPassword(encryptedPass);
+        
         return newCustomer;
     }
     
     
     // View and select Orders for Delivery. 
-    public void payOrder(Order order)
+    public void payOrder(Order order, ShoppingController controller)
     {
+        int index = controller.orders.indexOf(order);
         order.setPaidStatus(true);
+        controller.orders.set(index, order);
+        
+        ArrayList<Item> items = order.getProducts();
+        for (Item item: items)
+        {
+            int itemIndex = controller.item.indexOf(item);
+            Item selectedItem = controller.item.get(itemIndex);
+            selectedItem.substractQuantity(1);
+            controller.item.set(index, selectedItem);
+            
+            new GeneraFileHandler().updateItemFile(items);
+        }
     }
     
     // View and select Orders for Delivery. 
     public void submitFeedback(
         String review,
         int rating,
-        Order order
+        Order order,
+        ShoppingController controller
     ) {
         Feedback feedback = new Feedback();
         feedback.setReview(review);
         feedback.setRating(rating);
         feedback.setOrderId(order.getRecordId());
+
+        controller.feedback.add(feedback);
+        new GeneraFileHandler().updateFeedbackFile(controller.feedback);
     }
 }

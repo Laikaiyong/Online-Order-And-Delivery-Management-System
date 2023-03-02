@@ -13,6 +13,7 @@ import java.util.Scanner;
 import model.parent.User;
 import service.GeneraFileHandler;
 import service.Security;
+import service.ShoppingController;
 import service.UUIDGenerator;
 import service.UserController;
 
@@ -51,17 +52,17 @@ public class Admin extends User{
         new GeneraFileHandler().updateUserFile(controller);
     }
     
-    public void modifyUser(Admin admin, UserController controller)
+    public void modifyUser(Admin oriAdmin, Admin newAdmin, UserController controller)
     {
-        int index = controller.admins.indexOf(admin);
-        controller.admins.set(index, admin);
+        int index = controller.admins.indexOf(oriAdmin);
+        controller.admins.set(index, newAdmin);
         new GeneraFileHandler().updateUserFile(controller);
     }
     
-    public void modifyUser(DeliveryStaff staff, UserController controller)
+    public void modifyUser(DeliveryStaff oriStaff, DeliveryStaff newStaff, UserController controller)
     {
-        int index = controller.deliveryStaff.indexOf(staff);
-        controller.deliveryStaff.set(index, staff);
+        int index = controller.deliveryStaff.indexOf(oriStaff);
+        controller.deliveryStaff.set(index, newStaff);
         new GeneraFileHandler().updateUserFile(controller);
     }
         
@@ -77,9 +78,52 @@ public class Admin extends User{
         new GeneraFileHandler().updateUserFile(controller);
     }
         
-    public void assignStaff(DeliveryStaff staff, Order order)
+    public void assignStaff(DeliveryStaff staff, Order order, ShoppingController shopController)
     {
-        order.
-        new GeneraFileHandler().updateUserFile(controller);
+        order.setStaff(staff);
+        int index = shopController.orders.indexOf(order);
+        shopController.orders.set(index, order);
+        new GeneraFileHandler().updateOrderFile(shopController.orders);
+    }
+     
+    public void addItem(Item item, ShoppingController controller)
+    {
+        controller.item.add(item);
+        new GeneraFileHandler().updateItemFile(controller.item);
+    }
+    
+    public void modifyItem(Item oriItem, Item newItem, ShoppingController controller)
+    {
+        int index = controller.item.indexOf(oriItem);
+        controller.item.set(index, newItem);
+        new GeneraFileHandler().updateItemFile(controller.item);
+    }
+        
+    public void deleteItem(Item item, ShoppingController controller)
+    {
+        controller.item.remove(item);
+        new GeneraFileHandler().updateItemFile(controller.item);
+    }
+         
+    public void addCategoy(Category category, ShoppingController controller)
+    {
+        controller.category.add(category);
+        new GeneraFileHandler().updateCategoryFile(controller.category);
+    }
+    
+    public void modifyCategory(
+            Category oriCategory,
+            Category newCategory,
+            ShoppingController controller)
+    {
+        int index = controller.category.indexOf(oriCategory);
+        controller.category.set(index, newCategory);
+        new GeneraFileHandler().updateCategoryFile(controller.category);
+    }
+        
+    public void deleteCategory(Category category, ShoppingController controller)
+    {
+        controller.category.remove(category);
+        new GeneraFileHandler().updateCategoryFile(controller.category);
     }
 }

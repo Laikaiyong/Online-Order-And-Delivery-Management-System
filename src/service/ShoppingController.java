@@ -78,7 +78,7 @@ public class ShoppingController {
     
     public ArrayList<Cart> filteredCart(String personalId)
     {
-        List<Cart> list = this.carts;
+        List<Cart> list = (List<Cart>) this.carts.clone();
         list.removeIf(cart -> 
                 !cart.getCustomer().getPersonalId().equals(personalId)
         );
@@ -87,7 +87,7 @@ public class ShoppingController {
     
     public ArrayList<Order> filteredOrder(String personalId)
     {
-        List<Order> list = this.orders;
+        List<Order> list = (List<Order>) this.orders.clone();
         list.removeIf(order -> 
                 !order.getCustomer().getPersonalId().equals(personalId)
         );
@@ -96,12 +96,15 @@ public class ShoppingController {
     
     public ArrayList<Item> filteredItem(String[] itemIds)
     {
-        List<Item> oriItems = this.item;
+        System.out.println(this.item);
+        List<Item> oriItems = (List<Item>) this.item.clone();
         ArrayList<Item> result = new ArrayList<> ();
         for (Item product: oriItems) {
             for (String itemId : itemIds) {
-                if (product.getProductId().equals(itemId)) {
-                    result.add(product);
+                if (!itemId.equals("")) {
+                    if (product.getProductId().equals(itemId)) {
+                        result.add(product);
+                    }
                 }
             }
         }
@@ -111,16 +114,17 @@ public class ShoppingController {
         
     public ArrayList<Category> filteredCategory(String categoryId)
     {
-        List<Category> list = this.category;
+        List<Category> list = (List<Category>) this.category.clone();
         list.removeIf(cat -> 
                 !cat.getCategoryId().equals(categoryId)
         );
+        System.err.println(list);
         return new ArrayList<>(list);
     }
         
     public ArrayList<Feedback> filteredFeedback(String feedbackId)
     {
-        List<Feedback> list = this.feedback;
+        List<Feedback> list = (List<Feedback>) this.feedback.clone();
         list.removeIf(fb -> 
                 !fb.getFeedbackId().equals(feedbackId)
         );

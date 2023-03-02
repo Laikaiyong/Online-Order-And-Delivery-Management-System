@@ -4,6 +4,10 @@
  */
 package view.customer;
 
+import javax.swing.JOptionPane;
+import view.Auth;
+import view.PopUp;
+
 /**
  *
  * @author USER
@@ -28,8 +32,12 @@ public class FeedbackForm extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        exitButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        exitButton2 = new javax.swing.JButton();
+        profileHyperlink2 = new javax.swing.JLabel();
+        homeHyperlink2 = new javax.swing.JLabel();
+        cartHyperlink2 = new javax.swing.JLabel();
+        orderHyperlink2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -41,7 +49,7 @@ public class FeedbackForm extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 511, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -52,34 +60,82 @@ public class FeedbackForm extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 479, Short.MAX_VALUE)
         );
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 102));
-        jPanel1.setForeground(new java.awt.Color(255, 204, 153));
+        jPanel5.setBackground(new java.awt.Color(255, 204, 102));
+        jPanel5.setForeground(new java.awt.Color(255, 204, 153));
 
-        exitButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        exitButton.setText("Exit");
-        exitButton.addActionListener(new java.awt.event.ActionListener() {
+        exitButton2.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        exitButton2.setText("Exit");
+        exitButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitButtonActionPerformed(evt);
+                exitButton2ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        profileHyperlink2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        profileHyperlink2.setText("Profile");
+        profileHyperlink2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profileHyperlink2MouseClicked(evt);
+            }
+        });
+
+        homeHyperlink2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        homeHyperlink2.setText("Home");
+        homeHyperlink2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeHyperlink2MouseClicked(evt);
+            }
+        });
+
+        cartHyperlink2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        cartHyperlink2.setText("Cart");
+        cartHyperlink2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cartHyperlink2MouseClicked(evt);
+            }
+        });
+
+        orderHyperlink2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        orderHyperlink2.setText("Orders");
+        orderHyperlink2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderHyperlink2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addComponent(exitButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addGap(21, 21, 21))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(orderHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cartHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(homeHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileHyperlink2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(506, Short.MAX_VALUE)
-                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(profileHyperlink2)
+                .addGap(78, 78, 78)
+                .addComponent(homeHyperlink2)
+                .addGap(89, 89, 89)
+                .addComponent(cartHyperlink2)
+                .addGap(78, 78, 78)
+                .addComponent(orderHyperlink2)
+                .addGap(107, 107, 107)
+                .addComponent(exitButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -88,8 +144,8 @@ public class FeedbackForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,21 +154,22 @@ public class FeedbackForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+    private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButton2ActionPerformed
         int reply = new PopUp()
         .confirmationDialog(
             "Exit confirmation",
@@ -123,7 +180,27 @@ public class FeedbackForm extends javax.swing.JFrame {
             dispose();
             new Auth().setVisible(true);
         }
-    }//GEN-LAST:event_exitButtonActionPerformed
+    }//GEN-LAST:event_exitButton2ActionPerformed
+
+    private void profileHyperlink2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileHyperlink2MouseClicked
+        dispose();
+        new ProfileManagement().setVisible(true);
+    }//GEN-LAST:event_profileHyperlink2MouseClicked
+
+    private void homeHyperlink2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeHyperlink2MouseClicked
+        dispose();
+        new AuthedLandingPage().setVisible(true);
+    }//GEN-LAST:event_homeHyperlink2MouseClicked
+
+    private void cartHyperlink2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartHyperlink2MouseClicked
+        dispose();
+        new CartOrder().setVisible(true);
+    }//GEN-LAST:event_cartHyperlink2MouseClicked
+
+    private void orderHyperlink2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderHyperlink2MouseClicked
+        dispose();
+        new OrderHistory().setVisible(true);
+    }//GEN-LAST:event_orderHyperlink2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -164,9 +241,13 @@ public class FeedbackForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton exitButton;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel cartHyperlink2;
+    private javax.swing.JButton exitButton2;
+    private javax.swing.JLabel homeHyperlink2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel orderHyperlink2;
+    private javax.swing.JLabel profileHyperlink2;
     // End of variables declaration//GEN-END:variables
 }
