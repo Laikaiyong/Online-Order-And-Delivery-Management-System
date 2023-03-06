@@ -6,8 +6,12 @@ package view;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import model.Cart;
 import model.Customer;
+import model.Item;
 import service.GeneraFileHandler;
+import service.ShoppingController;
+import service.UUIDGenerator;
 import service.UserController;
 
 /**
@@ -16,6 +20,7 @@ import service.UserController;
  */
 public class Register extends javax.swing.JFrame {
     private UserController users= new Auth().userController;
+    private ShoppingController shoppingController = new Auth().shoppingController;
 
     /**
      * Creates new form Register
@@ -231,6 +236,15 @@ public class Register extends javax.swing.JFrame {
             Customer newCustomer = new Customer().register(name, password);
             users.customers.add(newCustomer);
             new GeneraFileHandler().updateUserFile(users);
+            
+            
+            Cart newCart = new Cart(
+                    new UUIDGenerator().generateUniqueKey(),
+                    new ArrayList<Item>(),
+                    newCustomer
+            );
+            shoppingController.carts.add(newCart);
+            new GeneraFileHandler().updateCartFile(shoppingController.carts);
             new PopUp().successMessage("Register Successfully", "Success");
             dispose();
             new Auth().setVisible(true);

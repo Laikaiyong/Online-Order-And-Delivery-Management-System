@@ -1,5 +1,6 @@
-admin, 98d6e9ac-0392-4fa7-95d4-633b23af66ae, Admin1, Error, M
-deliverystaff, 8ef3299b-2776-4168-a6a5-78e67e13f35a, Staff1, Error, M, XYKD123
-deliverystaff, baef81bd-6481-48ee-a729-ff6648fae1c1, Staff2, Error, F, SSNI192
-customer, bd75ff59-1468-4908-a1e5-9e68c088df83, james, Error, M, james@customer.co, Jalan Jalil Majmuk, 0129909982
-customer, 6b4d67dc-9bae-4436-b8e9-e750de9edf61, vandyck, ﾙﾻ{6ﾶ￯Gﾨﾎﾷﾹ,￬Xﾎ, U, -, -, -
+admin, 92f58bb9-9327-4cde-b6b0-49b090799b17, Admin1, admin123, M
+admin, fa23f316-e1df-47ef-8e11-48c08887981a, vanessa, 12345, F
+deliverystaff, 68c27395-043f-4e0d-9f05-44072fb67e4c, Staff1, staff123, F, XYKD123
+deliverystaff, b4d35922-6327-4928-9f34-4192bb6e7024, Staff2, staff123, F, SSNI192
+deliverystaff, 85997432-5069-41d5-bbc0-d45e096c8ed5, vandyck, 12345, F, ewfd3q
+customer, e9afd7bd-608c-4de7-8617-1bac8713fbc3, james, customer123, M, james@customer.co, Jalan Jalil Majmuk, 0129909982

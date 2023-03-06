@@ -4,7 +4,13 @@
  */
 package view.customer;
 
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Category;
+import model.Item;
 import view.Auth;
 import view.PopUp;
 
@@ -19,6 +25,7 @@ public class AuthedLandingPage extends javax.swing.JFrame {
      */
     public AuthedLandingPage() {
         initComponents();
+        tableRefresh();
     }
 
     /**
@@ -34,6 +41,8 @@ public class AuthedLandingPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         categoryCombo = new javax.swing.JComboBox<>();
+        productNameField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -65,28 +74,56 @@ public class AuthedLandingPage extends javax.swing.JFrame {
             }
         });
 
+        productNameField.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        productNameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                productNameFieldKeyPressed(evt);
+            }
+        });
+
+        searchButton.setBackground(new java.awt.Color(255, 204, 102));
+        searchButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(255, 255, 255));
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(81, 81, 81)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(productNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton)))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(82, 82, 82)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(productNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(86, 86, 86)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(categoryCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(211, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
@@ -121,21 +158,21 @@ public class AuthedLandingPage extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(64, 64, 64)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -283,10 +320,12 @@ public class AuthedLandingPage extends javax.swing.JFrame {
             String selectedValue = categoryCombo.getSelectedItem().toString();
             if (selectedValue.equals("Default"))
             {
+                productNameField.setText("");
                 tableRefresh();
             }
             else
             {
+                productNameField.setText("");
                 filterTable(selectedValue);
             }
         }
@@ -296,6 +335,111 @@ public class AuthedLandingPage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_categoryComboActionPerformed
 
+    private void productNameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productNameFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            searchRecord();
+        }
+    }//GEN-LAST:event_productNameFieldKeyPressed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchRecord();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void searchRecord()
+    {
+       ArrayList<Item> items = new Auth().shoppingController.item;
+       String searchphrase = productNameField.getText();
+       
+       DefaultTableModel tableModel =  (DefaultTableModel) productsTable.getModel();
+       tableModel.setRowCount(0);
+       if (!searchphrase.equals(""))
+       {
+           for (Item item: items)
+           {
+               if (item.getProductName().equals(searchphrase))
+               {
+                   tableModel.addRow(
+                    new Object[]
+                        {
+                            item.getProductId(),
+                            item.getProductName(),
+                            item.getDescription(),
+                            item.getPrice(),
+                            item.getInStockQuantity(),
+                            item.getCategory().getCategoryName()
+                        }
+                    );
+               }
+           }
+       }
+    }
+    
+    private void filterTable(String category)
+    {
+        ArrayList<Item> items = new Auth().shoppingController.item;
+         // Table
+        DefaultTableModel tableModel =  (DefaultTableModel) productsTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Item item: items)
+            {
+                if (item.getCategory().getCategoryName().equals(category))
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            item.getProductId(),
+                            item.getProductName(),
+                            item.getDescription(),
+                            item.getPrice(),
+                            item.getInStockQuantity(),
+                            item.getCategory().getCategoryName()
+                        }
+                );
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
+    private void tableRefresh()
+    {
+        ArrayList<Item> items = new Auth().shoppingController.item;
+        ArrayList<Category> category = new Auth().shoppingController.category;
+        ArrayList<String> categoryName = new ArrayList<>();
+        categoryName.add("Default");
+        
+        // Combobox
+        for (Category cat: category)
+        {
+            categoryName.add(cat.getCategoryName());
+        }
+        categoryCombo.removeAllItems();
+        categoryCombo.setModel(new DefaultComboBoxModel<>(categoryName.toArray(String[]::new)));
+        
+        // Table
+        DefaultTableModel tableModel =  (DefaultTableModel) productsTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Item item: items)
+            {
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            item.getProductId(),
+                            item.getProductName(),
+                            item.getDescription(),
+                            item.getPrice(),
+                            item.getInStockQuantity(),
+                            item.getCategory().getCategoryName()
+                        }
+                );
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -344,7 +488,9 @@ public class AuthedLandingPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel orderHyperlink;
+    private javax.swing.JTextField productNameField;
     private javax.swing.JTable productsTable;
     private javax.swing.JLabel profileHyperlink;
+    private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables
 }

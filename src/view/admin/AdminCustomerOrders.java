@@ -4,7 +4,11 @@
  */
 package view.admin;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Item;
+import model.Order;
 import service.UserController;
 import view.Auth;
 import view.PopUp;
@@ -20,6 +24,7 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
      */
     public AdminCustomerOrders() {
         initComponents();
+        setValues();
     }
 
     /**
@@ -31,33 +36,73 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         exitButton = new javax.swing.JButton();
+        dashboardHyperlink = new javax.swing.JLabel();
+        userManagementHyperlink = new javax.swing.JLabel();
+        categoryManagementHyperlink = new javax.swing.JLabel();
+        itemManagementHyperlink = new javax.swing.JLabel();
+        orderViewHyperlink = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "id", "products", "customer", "total price", "delivery status", "paid", "created", "staff"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        orderTable.getTableHeader().setReorderingAllowed(false);
+        orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(orderTable);
+
+        jTabbedPane1.addTab("Overview", jScrollPane1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(306, 306, 306)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 514, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(6, 6, 6)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 102));
@@ -71,22 +116,84 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
             }
         });
 
+        dashboardHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        dashboardHyperlink.setText("Dashboard");
+        dashboardHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboardHyperlinkMouseClicked(evt);
+            }
+        });
+
+        userManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        userManagementHyperlink.setText("Manage User");
+        userManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userManagementHyperlinkMouseClicked(evt);
+            }
+        });
+
+        categoryManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        categoryManagementHyperlink.setText("Manage  Category");
+        categoryManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                categoryManagementHyperlinkMouseClicked(evt);
+            }
+        });
+
+        itemManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        itemManagementHyperlink.setText("Manage Item");
+        itemManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemManagementHyperlinkMouseClicked(evt);
+            }
+        });
+
+        orderViewHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        orderViewHyperlink.setText("Customer Orders");
+        orderViewHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderViewHyperlinkMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                .addGap(21, 21, 21))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(21, 21, 21))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(dashboardHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(userManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(categoryManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(itemManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(orderViewHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(506, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
+                .addComponent(dashboardHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(userManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(categoryManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(itemManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138)
+                .addComponent(orderViewHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
+
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel1.setText("Customer Orders with Payment Information");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,23 +201,25 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(345, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
@@ -129,6 +238,83 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void dashboardHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardHyperlinkMouseClicked
+        dispose();
+        new BusinessDashboard().setVisible(true);
+    }//GEN-LAST:event_dashboardHyperlinkMouseClicked
+
+    private void userManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userManagementHyperlinkMouseClicked
+        dispose();
+        new UserManagement().setVisible(true);
+    }//GEN-LAST:event_userManagementHyperlinkMouseClicked
+
+    private void categoryManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryManagementHyperlinkMouseClicked
+        dispose();
+        new CategoryManagement().setVisible(true);
+    }//GEN-LAST:event_categoryManagementHyperlinkMouseClicked
+
+    private void itemManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemManagementHyperlinkMouseClicked
+        dispose();
+        new ItemManagement().setVisible(true);
+    }//GEN-LAST:event_itemManagementHyperlinkMouseClicked
+
+    private void orderViewHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderViewHyperlinkMouseClicked
+        dispose();
+        new CustomerOrderPaymentView().setVisible(true);
+    }//GEN-LAST:event_orderViewHyperlinkMouseClicked
+
+    private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
+
+    }//GEN-LAST:event_orderTableMouseClicked
+
+     private void setValues()
+    {
+        int pendingNum = 0;
+        int successNum = 0;
+        int outForDeliveryNum = 0;
+        ArrayList<Order> orders = new Auth().shoppingController.orders;
+        DefaultTableModel tableModel =  (DefaultTableModel) orderTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Order order: orders)
+            {
+                String orderProducts = "";
+                System.out.println(order.getProducts());
+                for (Item item: order.getProducts())
+                {
+                    System.out.println(item);
+                    orderProducts += item.getProductName() + ", ";
+                }
+
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            order.getRecordId(),
+                            orderProducts,
+                            order.getCustomer().getUsername(),
+                            order.getTotalPrice(),
+                            order.getDeliveryStatus(),
+                            order.getPaidStatus(),
+                            order.getCreated().toString(),
+                            order.getStaff().getUsername()
+                        }
+                );
+                switch (order.getDeliveryStatus()) {
+                    case "Pending":
+                        pendingNum += 1;
+                        break;
+                    case "Delivered":
+                        successNum += 1;
+                        break;
+                    default:
+                        outForDeliveryNum += 1;
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -165,9 +351,17 @@ public class AdminCustomerOrders extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel categoryManagementHyperlink;
+    private javax.swing.JLabel dashboardHyperlink;
     private javax.swing.JButton exitButton;
+    private javax.swing.JLabel itemManagementHyperlink;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable orderTable;
+    private javax.swing.JLabel orderViewHyperlink;
+    private javax.swing.JLabel userManagementHyperlink;
     // End of variables declaration//GEN-END:variables
 }

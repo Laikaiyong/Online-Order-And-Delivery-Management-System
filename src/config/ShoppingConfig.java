@@ -4,6 +4,7 @@
  */
 package config;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import model.Feedback;
 import model.Item;
 import model.Order;
 import service.GeneraFileHandler;
-import service.Security;
 import service.ShoppingController;
 import service.UUIDGenerator;
 import service.UserController;
@@ -26,7 +26,7 @@ import service.UserController;
  * @author USER
  */
 public class ShoppingConfig {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         UserController users = new UserController();
 
         ShoppingController controller = new ShoppingController();
@@ -108,6 +108,18 @@ public class ShoppingConfig {
                 true,
                 LocalDate.of(2023, Month.JANUARY, 13),
                 users.deliveryStaff.get(1)
+            )
+        );
+        orders.add(
+            new Order(
+                new UUIDGenerator().generateUniqueKey(),
+                cartItems2,
+                users.customers.get(0),
+                100.15f,
+                "Out for Delivery",
+                false,
+                LocalDate.of(2023, Month.JANUARY, 19),
+                users.deliveryStaff.get(0)
             )
         );
         orders.add(

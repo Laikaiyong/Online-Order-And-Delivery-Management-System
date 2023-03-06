@@ -4,12 +4,12 @@
  */
 package config;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import model.Admin;
 import model.Customer;
 import model.DeliveryStaff;
 import service.GeneraFileHandler;
-import service.Security;
 import service.UUIDGenerator;
 import service.UserController;
 
@@ -29,7 +29,7 @@ public class UserConfig {
             new Admin(
                 new UUIDGenerator().generateUniqueKey(),
                 "Admin1",
-                new Security().encrypt("admin123"),
+                "admin123",
                 'M'
             )
         );
@@ -39,7 +39,7 @@ public class UserConfig {
             new DeliveryStaff(
                 new UUIDGenerator().generateUniqueKey(),
                 "Staff1",
-                new Security().encrypt("staff123"),
+                "staff123",
                 'M',
                 "XYKD123"
             )
@@ -48,7 +48,7 @@ public class UserConfig {
             new DeliveryStaff(
                 new UUIDGenerator().generateUniqueKey(),
                 "Staff2",
-                new Security().encrypt("staff123"),
+                "staff123",
                 'F',
                 "SSNI192"
             )
@@ -59,7 +59,7 @@ public class UserConfig {
             new Customer(
                 "james",
                 new UUIDGenerator().generateUniqueKey(),
-                new Security().encrypt("customer123"),
+                "customer123",
                 'M',
                 "james@customer.co",
                 "Jalan Jalil Majmuk",

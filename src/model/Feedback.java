@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.time.LocalDate;
-
 /**
  *
  * @author USER
@@ -16,7 +14,6 @@ public class Feedback {
     private int rating;
     private String customerName;
     private String orderId;
-    private LocalDate created;
     
 
     public Feedback() {
@@ -50,10 +47,6 @@ public class Feedback {
         return orderId;
     }
 
-    public LocalDate getCreated() {
-        return created;
-    }
-
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
@@ -72,10 +65,6 @@ public class Feedback {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public void setCreated(LocalDate created) {
-        this.created = created;
     }
     
 }

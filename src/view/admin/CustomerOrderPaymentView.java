@@ -2,18 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package view.deliveryStaff;
+package view.admin;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.Category;
+import model.DeliveryStaff;
 import model.Feedback;
 import model.Item;
 import model.Order;
 import service.GeneraFileHandler;
 import service.ShoppingController;
+import service.UserController;
 import view.Auth;
 import view.PopUp;
 
@@ -21,15 +22,15 @@ import view.PopUp;
  *
  * @author USER
  */
-public class OrderDelivery extends javax.swing.JFrame {
+public class CustomerOrderPaymentView extends javax.swing.JFrame {
     private int recordNumber = 0;
-    
     /**
-     * Creates new form OrderDelivery
+     * Creates new form CustomerOrderPaymentView
      */
-    public OrderDelivery() {
+    public CustomerOrderPaymentView() {
         initComponents();
         setupComponents();
+        setValues();
     }
 
     /**
@@ -41,15 +42,18 @@ public class OrderDelivery extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        exitButton3 = new javax.swing.JButton();
-        orderDeliveryHyperlink = new javax.swing.JLabel();
-        deliveryQueueHyperlink = new javax.swing.JLabel();
-        Orders = new javax.swing.JTabbedPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        exitButton = new javax.swing.JButton();
+        dashboardHyperlink = new javax.swing.JLabel();
+        userManagementHyperlink = new javax.swing.JLabel();
+        categoryManagementHyperlink = new javax.swing.JLabel();
+        itemManagementHyperlink = new javax.swing.JLabel();
+        orderViewHyperlink = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         orderTable = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        feedbackTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         orderProducts = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -68,61 +72,94 @@ public class OrderDelivery extends javax.swing.JFrame {
         paidText = new javax.swing.JLabel();
         staffText = new javax.swing.JLabel();
         createdText = new javax.swing.JLabel();
-        deliveryStatusCombo = new javax.swing.JComboBox<>();
+        staffCombo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(255, 204, 102));
-        jPanel2.setForeground(new java.awt.Color(255, 204, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 204, 102));
+        jPanel1.setForeground(new java.awt.Color(255, 204, 153));
 
-        exitButton3.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        exitButton3.setText("Exit");
-        exitButton3.addActionListener(new java.awt.event.ActionListener() {
+        exitButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitButton3ActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
 
-        orderDeliveryHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        orderDeliveryHyperlink.setText("Order Delivery");
-        orderDeliveryHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+        dashboardHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        dashboardHyperlink.setText("Dashboard");
+        dashboardHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                orderDeliveryHyperlinkMouseClicked(evt);
+                dashboardHyperlinkMouseClicked(evt);
             }
         });
 
-        deliveryQueueHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        deliveryQueueHyperlink.setText("Delivery Queue");
-        deliveryQueueHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+        userManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        userManagementHyperlink.setText("Manage User");
+        userManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deliveryQueueHyperlinkMouseClicked(evt);
+                userManagementHyperlinkMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        categoryManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        categoryManagementHyperlink.setText("Manage  Category");
+        categoryManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                categoryManagementHyperlinkMouseClicked(evt);
+            }
+        });
+
+        itemManagementHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        itemManagementHyperlink.setText("Manage Item");
+        itemManagementHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemManagementHyperlinkMouseClicked(evt);
+            }
+        });
+
+        orderViewHyperlink.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        orderViewHyperlink.setText("Customer Orders");
+        orderViewHyperlink.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                orderViewHyperlinkMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(exitButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(deliveryQueueHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(dashboardHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addComponent(orderDeliveryHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(userManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(categoryManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(itemManagementHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(orderViewHyperlink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(deliveryQueueHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(153, 153, 153)
-                .addComponent(orderDeliveryHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
-                .addComponent(exitButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(dashboardHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(userManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(categoryManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66)
+                .addComponent(itemManagementHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(orderViewHyperlink, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
 
@@ -155,42 +192,23 @@ public class OrderDelivery extends javax.swing.JFrame {
                 orderTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(orderTable);
+        jScrollPane1.setViewportView(orderTable);
 
-        Orders.addTab("Orders", jScrollPane2);
+        jTabbedPane1.addTab("Overview", jScrollPane1);
 
-        feedbackTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "id", "review", "rating", "customer name", "order id"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel1.setText("Customer Orders with Payment Information");
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        feedbackTable.getTableHeader().setReorderingAllowed(false);
-        feedbackTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                feedbackTableMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(feedbackTable);
-
-        Orders.addTab("Feedback", jScrollPane3);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -223,10 +241,10 @@ public class OrderDelivery extends javax.swing.JFrame {
         orderIdText.setText("-");
 
         jLabel30.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jLabel30.setText("Staff");
+        jLabel30.setText("Delivery Status");
 
         jLabel31.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jLabel31.setText("Delivery Status:");
+        jLabel31.setText("Staff");
 
         jLabel32.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jLabel32.setText("Created");
@@ -249,8 +267,8 @@ public class OrderDelivery extends javax.swing.JFrame {
         createdText.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         createdText.setText("-");
 
-        deliveryStatusCombo.setFont(new java.awt.Font("Poppins", 0, 11)); // NOI18N
-        deliveryStatusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        staffCombo.setFont(new java.awt.Font("Poppins", 0, 11)); // NOI18N
+        staffCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -300,7 +318,7 @@ public class OrderDelivery extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(createdText, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(deliveryStatusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(staffCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -340,7 +358,7 @@ public class OrderDelivery extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
-                    .addComponent(deliveryStatusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(staffCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(updateButton1)
                 .addContainerGap())
@@ -351,30 +369,37 @@ public class OrderDelivery extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Orders, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Orders, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButton3ActionPerformed
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         int reply = new PopUp()
         .confirmationDialog(
             "Exit confirmation",
@@ -385,17 +410,32 @@ public class OrderDelivery extends javax.swing.JFrame {
             dispose();
             new Auth().setVisible(true);
         }
-    }//GEN-LAST:event_exitButton3ActionPerformed
+    }//GEN-LAST:event_exitButtonActionPerformed
 
-    private void orderDeliveryHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderDeliveryHyperlinkMouseClicked
+    private void dashboardHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardHyperlinkMouseClicked
         dispose();
-        new OrderDelivery().setVisible(true);
-    }//GEN-LAST:event_orderDeliveryHyperlinkMouseClicked
+        new BusinessDashboard().setVisible(true);
+    }//GEN-LAST:event_dashboardHyperlinkMouseClicked
 
-    private void deliveryQueueHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deliveryQueueHyperlinkMouseClicked
+    private void userManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userManagementHyperlinkMouseClicked
         dispose();
-        new DeliveryQueue().setVisible(true);
-    }//GEN-LAST:event_deliveryQueueHyperlinkMouseClicked
+        new UserManagement().setVisible(true);
+    }//GEN-LAST:event_userManagementHyperlinkMouseClicked
+
+    private void categoryManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_categoryManagementHyperlinkMouseClicked
+        dispose();
+        new CategoryManagement().setVisible(true);
+    }//GEN-LAST:event_categoryManagementHyperlinkMouseClicked
+
+    private void itemManagementHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemManagementHyperlinkMouseClicked
+        dispose();
+        new ItemManagement().setVisible(true);
+    }//GEN-LAST:event_itemManagementHyperlinkMouseClicked
+
+    private void orderViewHyperlinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderViewHyperlinkMouseClicked
+        dispose();
+        new CustomerOrderPaymentView().setVisible(true);
+    }//GEN-LAST:event_orderViewHyperlinkMouseClicked
 
     private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
         try
@@ -404,19 +444,6 @@ public class OrderDelivery extends javax.swing.JFrame {
             if (selectedRow >= 0)
             {
                 manipulateForm(selectedRow);
-//                String selectedOrderId = String.valueOf(
-//                    orderTable.getModel().getValueAt(selectedRow, 0)
-//                );
-//                for(Booking record: bookings)
-//                {
-//                    if(record.getBookingId().equals(selectedBookingId))
-//                    {
-//                        recordNumber = selectedRow;
-//                        System.out.println(record);
-//                        manipulateForm(recordNumber);
-//                        break;
-//                    }
-//                }
             }
         }
         catch(NumberFormatException excep)
@@ -425,36 +452,78 @@ public class OrderDelivery extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_orderTableMouseClicked
 
-    private void feedbackTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_feedbackTableMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_feedbackTableMouseClicked
-
     private void updateButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButton1ActionPerformed
         ShoppingController controller = new Auth().shoppingController;
+        UserController users = new Auth().userController;
         ArrayList<Order> orders = controller.orders;
         Order order = controller.filteredOrderById(orderIdText.getText());
         System.out.println(order);
         int index = orders.indexOf(order);
-        order.setDeliveryStatus((String) deliveryStatusCombo.getModel().getSelectedItem());
-        
+        order.setStaff(users.filteredDeliveryStaffId((String) staffCombo.getModel().getSelectedItem()));
+
         orders.set(index, order);
-        
+
         new GeneraFileHandler().updateOrderFile(orders);
-        
+
         dispose();
-        new OrderDelivery().setVisible(true);
+        new CustomerOrderPaymentView().setVisible(true);
     }//GEN-LAST:event_updateButton1ActionPerformed
 
-    
+    private void setValues()
+    {
+        int pendingNum = 0;
+        int successNum = 0;
+        int outForDeliveryNum = 0;
+        ArrayList<Order> orders = new Auth().shoppingController.orders;
+        DefaultTableModel tableModel =  (DefaultTableModel) orderTable.getModel();
+        tableModel.setRowCount(0);
+        try {
+            for (Order order: orders)
+            {
+                String orderProducts = "";
+                System.out.println(order.getProducts());
+                for (Item item: order.getProducts())
+                {
+                    System.out.println(item);
+                    orderProducts += item.getProductName() + ", ";
+                }
+
+                tableModel.addRow(
+                    new Object[]
+                        {
+                            order.getRecordId(),
+                            orderProducts,
+                            order.getCustomer().getUsername(),
+                            order.getTotalPrice(),
+                            order.getDeliveryStatus(),
+                            order.getPaidStatus(),
+                            order.getCreated().toString(),
+                            order.getStaff().getUsername()
+                        }
+                );
+                switch (order.getDeliveryStatus()) {
+                    case "Pending":
+                        pendingNum += 1;
+                        break;
+                    case "Delivered":
+                        successNum += 1;
+                        break;
+                    default:
+                        outForDeliveryNum += 1;
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+        
     private void setupComponents()
     {
         ArrayList<Order> orders = new Auth().shoppingController.orders;
-        ArrayList<Feedback> feedback = new Auth().shoppingController.feedback;
         DefaultTableModel tableModel =  (DefaultTableModel) orderTable.getModel();
         tableModel.setRowCount(0);
-        
-         DefaultTableModel tableModel1 =  (DefaultTableModel) feedbackTable.getModel();
-        tableModel1.setRowCount(0);
+
         try {
             for (Order order: orders)
             {
@@ -482,20 +551,7 @@ public class OrderDelivery extends javax.swing.JFrame {
                     );
                 }
             }
-            
-            for (Feedback fb: feedback)
-            {
-                tableModel1.addRow(
-                    new Object[]
-                        {
-                            fb.getFeedbackId(),
-                            fb.getReview(),
-                            fb.getRating(),
-                            fb.getCustomerName(),
-                            fb.getOrderId()
-                        }
-                );
-            }
+           
             manipulateForm(recordNumber);
         } catch (Exception e) {
             System.err.println(e);
@@ -504,16 +560,17 @@ public class OrderDelivery extends javax.swing.JFrame {
     
      private void manipulateForm(int index)
     {
-        ArrayList<Order> orders = new Auth().shoppingController.filteredOrderByStaff(new Auth().userController.loginedUserId);
-        ArrayList<String> deliveryStatuses = new ArrayList<>();
+        ArrayList<Order> orders = new Auth().shoppingController.orders;
+        ArrayList<DeliveryStaff> staffs = new Auth().userController.deliveryStaff;
+        ArrayList<String> deliveryStaff = new ArrayList<>();
         
         // Combobox
-        deliveryStatuses.add("Pending");
-        deliveryStatuses.add("Delivered");
-        deliveryStatuses.add("Out for Delivery");
-
-        deliveryStatusCombo.removeAllItems();
-        deliveryStatusCombo.setModel(new DefaultComboBoxModel<>(deliveryStatuses.toArray(String[]::new)));
+        for (DeliveryStaff staff: staffs)
+        {
+            deliveryStaff.add(staff.getPersonalId());
+        }
+        staffCombo.removeAllItems();
+        staffCombo.setModel(new DefaultComboBoxModel<>(deliveryStaff.toArray(String[]::new)));
         // Set Record Number to valid number        
         recordNumber = index;
         if(recordNumber >= orders.size())
@@ -542,9 +599,9 @@ public class OrderDelivery extends javax.swing.JFrame {
             customerNameText.setText(orders.get(recordNumber).getCustomer().getUsername());
             totalPriceText.setText(Float.toString(orders.get(recordNumber).getTotalPrice()));
             paidText.setText(Boolean.toString(orders.get(recordNumber).getPaidStatus()));
-            staffText.setText(orders.get(recordNumber).getStaff().getUsername());
+            staffText.setText(orders.get(recordNumber).getDeliveryStatus());
             createdText.setText(orders.get(recordNumber).getCreated().toString());
-            deliveryStatusCombo.getModel().setSelectedItem(orders.get(recordNumber).getDeliveryStatus());
+            staffCombo.getModel().setSelectedItem(orders.get(recordNumber).getStaff().getPersonalId());
         }
         //  No booking records loaded      
         else
@@ -556,9 +613,10 @@ public class OrderDelivery extends javax.swing.JFrame {
             paidText.setText("-");
             staffText.setText("-");
             createdText.setText("-");
-            deliveryStatusCombo.getModel().setSelectedItem("-");
+            staffCombo.getModel().setSelectedItem("-");
         }
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -576,32 +634,32 @@ public class OrderDelivery extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OrderDelivery.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerOrderPaymentView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OrderDelivery.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerOrderPaymentView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OrderDelivery.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerOrderPaymentView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OrderDelivery.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerOrderPaymentView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderDelivery().setVisible(true);
+                new CustomerOrderPaymentView().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane Orders;
+    private javax.swing.JLabel categoryManagementHyperlink;
     private javax.swing.JLabel createdText;
     private javax.swing.JLabel customerNameText;
-    private javax.swing.JLabel deliveryQueueHyperlink;
-    private javax.swing.JComboBox<String> deliveryStatusCombo;
-    private javax.swing.JButton exitButton3;
-    private javax.swing.JTable feedbackTable;
+    private javax.swing.JLabel dashboardHyperlink;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JLabel itemManagementHyperlink;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel30;
@@ -609,19 +667,22 @@ public class OrderDelivery extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JLabel orderDeliveryHyperlink;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel orderIdText;
     private javax.swing.JLabel orderProducts;
     private javax.swing.JTable orderTable;
+    private javax.swing.JLabel orderViewHyperlink;
     private javax.swing.JLabel paidText;
     private javax.swing.JLabel productsText;
+    private javax.swing.JComboBox<String> staffCombo;
     private javax.swing.JLabel staffText;
     private javax.swing.JLabel totalPriceText;
     private javax.swing.JButton updateButton1;
+    private javax.swing.JLabel userManagementHyperlink;
     // End of variables declaration//GEN-END:variables
 }

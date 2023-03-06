@@ -5,13 +5,17 @@
 package service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Admin;
 import model.Cart;
 import model.Category;
@@ -90,20 +94,24 @@ public class GeneraFileHandler {
                 Scanner input = new Scanner(file);
                 while(input.hasNextLine()){
                     String line = input.nextLine();
-                    String[] orderInformation = line.split(", ");
-                    ArrayList<Item> items = controller
-                            .filteredItem(orderInformation[1].split("$"));
-                    Order order = new Order(
-                            orderInformation[0],
-                            items,
-                            users.filteredCustomerId(orderInformation[2]),
-                            Float.parseFloat(orderInformation[3]),
-                            orderInformation[4],
-                            Boolean.parseBoolean(orderInformation[5]),
-                            LocalDate.parse(orderInformation[6], dateFormatter),
-                            users.filteredDeliveryStaffId(orderInformation[7])
-                    );
-                    orderRecord.add(order);
+                    if (!line.equals(""))
+                    {
+                        String[] orderInformation = line.split(", ");
+                        System.err.println(Arrays.toString(orderInformation[1].split("\\$")));
+                        ArrayList<Item> items = controller
+                                .filteredItem(orderInformation[1].split("\\$"));
+                        Order order = new Order(
+                                orderInformation[0],
+                                items,
+                                users.filteredCustomerId(orderInformation[2]),
+                                Float.parseFloat(orderInformation[3]),
+                                orderInformation[4],
+                                Boolean.parseBoolean(orderInformation[5]),
+                                LocalDate.parse(orderInformation[6], dateFormatter),
+                                users.filteredDeliveryStaffId(orderInformation[7])
+                        );
+                        orderRecord.add(order);
+                    }
                 }
             }
         } 
@@ -165,7 +173,7 @@ public class GeneraFileHandler {
                 while(input.hasNextLine()){
                     String line = input.nextLine();
                     String[] orderInformation = line.split(", ");
-                    ArrayList<Item> products = controller.filteredItem(orderInformation[1].split("$"));
+                    ArrayList<Item> products = controller.filteredItem(orderInformation[1].split("\\$"));
                     Customer customer = users.filteredCustomerId(orderInformation[2]);
                     Cart cart = new Cart(
                             orderInformation[0],
@@ -416,17 +424,24 @@ public class GeneraFileHandler {
 
             for (DeliveryStaff staff: controller.deliveryStaff)
             {
-                printWriter.append(
-                        String.format(
-                                "%s, %s, %s, %s, %c, %s\n",
-                                "deliverystaff",
-                                staff.getPersonalId(),
-                                staff.getUsername(),
-                                staff.getPassword(),
-                                staff.getGender(),
-                                staff.getCarPlate()
-                        )
-                );
+                if (staff.getUsername().equals("Deleted"))
+                {
+                    continue;
+                }
+                else
+                {
+                    printWriter.append(
+                            String.format(
+                                    "%s, %s, %s, %s, %c, %s\n",
+                                    "deliverystaff",
+                                    staff.getPersonalId(),
+                                    staff.getUsername(),
+                                    staff.getPassword(),
+                                    staff.getGender(),
+                                    staff.getCarPlate()
+                            )
+                    );
+                }
             }
 
             for (Customer customer: controller.customers)
@@ -479,11 +494,10 @@ public class GeneraFileHandler {
                     String[] userInformation = line.split(", ");
                     if(userInformation[0].equals("admin"))
                     {
-                        System.out.println(new Security().decrypt(userInformation[3]));
                         Admin admin = new Admin(
                             userInformation[1],
                             userInformation[2],
-                            new Security().decrypt(userInformation[3]),
+                            userInformation[3],
                             userInformation[4].charAt(0)
                         );
                         admins.add(admin);
@@ -532,10 +546,11 @@ public class GeneraFileHandler {
                             DeliveryStaff staff= new DeliveryStaff(
                                     userInformation[1],
                                     userInformation[2],
-                                    new Security().decrypt(userInformation[3]),
+                                    userInformation[3],
                                     userInformation[4].charAt(0),
                                     userInformation[5]
-                            );  staffs.add(staff);
+                            ); 
+                            staffs.add(staff);
                         }
                         default -> {
                                 break OUTER;
@@ -584,7 +599,7 @@ public class GeneraFileHandler {
                             Customer customer = new Customer(
                                     userInformation[2],
                                     userInformation[1],
-                                    new Security().decrypt(userInformation[3]),
+                                    userInformation[3],
                                     userInformation[4].charAt(0),
                                     userInformation[5],
                                     userInformation[6],
@@ -606,4 +621,49 @@ public class GeneraFileHandler {
         
         return customers;
     }
+    
+    public void setLoginUserId(String userId)
+    {
+        File file = new File("src/data/login.txt");
+        // Create file / Retrive data from file
+        try (PrintWriter printWriter = new PrintWriter(new FileWriter(file, false))) {
+            // printWriter.flush();
+                printWriter.append(
+                    String.format("%s", userId)
+                );
+                if (printWriter != null) {
+                    printWriter.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(GeneraFileHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }       
+
+    public String getLoginUserId() throws FileNotFoundException
+    {
+        File file = new File("src/data/login.txt");
+        // Create file / Retrive data from file
+        try
+        {
+            //  Initialization   
+            if (file.createNewFile()) 
+            {
+                System.out.println("Empty file creating.");
+            }
+            //  Read file to get rooms          
+            else
+            {
+                System.out.println("Record file exists.");
+                Scanner input = new Scanner(file);
+                if (input.hasNextLine()){
+                    return input.nextLine();
+                }
+            }
+        } 
+        catch (IOException e)
+        {
+          System.out.println("Booking record cannot be sent to database.");
+        }
+        return null;
+    } 
 }

@@ -4,8 +4,11 @@
  */
 package service;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Admin;
 import model.Customer;
 import model.DeliveryStaff;
@@ -25,6 +28,11 @@ public class UserController {
         this.admins = new GeneraFileHandler().configAdmin();
         this.customers = new GeneraFileHandler().configCustomer();
         this.deliveryStaff = new GeneraFileHandler().configDeliveryStaff();
+        try {
+            this.loginedUserId = new GeneraFileHandler().getLoginUserId();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public UserController(
@@ -83,10 +91,12 @@ public class UserController {
     
     public Customer filteredCustomerId(String id)
     {
+        System.err.println(id);
         List<Customer> list = (List<Customer>) this.customers.clone();
         list.removeIf(cus -> 
                 !cus.getPersonalId().equals(id)
         );
+        System.err.println(this.customers.get(0).getPersonalId());
         return new ArrayList<>(list).get(0);
     }
     

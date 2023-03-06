@@ -4,10 +4,12 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import service.ShoppingController;
 
 /**
  *
@@ -18,7 +20,7 @@ public class Order extends ShoppingGuides {
         new String[] {
             "Pending",
             "Delivered",
-            "Out of Delivery"
+            "Out for Delivery"
         }
     );
     private float totalPrice;
@@ -135,27 +137,38 @@ public class Order extends ShoppingGuides {
         this.staff = staff;
     }
 
-    public String generateReceipt()
+    public String generateReceipt(ShoppingController controller)
     {
+        String result = "";
         String pattern = "xxxxxxxxxxxxxx";
-        return "\n\nOrder details:\n\nOrder Id: #" + this.getRecordId() + 
+        ArrayList<Item> items = new ArrayList<>();
+        String[] products = this.serializeProducts().split("$");
+        ArrayList<Item> relatedItems = controller.filteredItem(products);
+        
+        result += "\n\ndetails:\n\nOrder Id: #" + this.getRecordId() + 
         "\n\nCustomer Details\n" + pattern + "\n" +
         "Customer Id:\t\t" + this.getCustomer().getPersonalId() + "\n" +
         "Customer Name:\t\t" + this.getCustomer().getUsername() + "\n" +
-        "Gender:\t\t" + record.getCustomer().getGender() + "\n" +
-        "E-mail:\t\t" + record.getCustomer().getEmail() + "\n" +
-        "Contact Number:\t" + record.getCustomer().getContactNumber() + "\n" +
-        "\n\nBooking Details\n" + pattern + "\n" +
-        "Room Id:\t\t" + record.getBookedRoom() + "\n" +
-        "Dates:\t\t" + record.getStartDate() + " to " + 
-        record.getEndDate() + " (" + record.getStayDays() + " days)\n" +
-        "Room Charges: \tRM " + 
-        String.format("%.2f", new BigDecimal(record.getNightPay())) + "\n" +
-        "Extra Charges: \tRM " + String.format("%.2f ", new BigDecimal(record.getExtraCharges())) + "\n" +
-        "Service Taxes:  \tRM " + String.format("%.2f", new BigDecimal(record.getServiceTax())) + "\n" +
-        "Tourism Taxes:   \tRM " + String.format("%.2f", new BigDecimal(record.getTourismTax())) + "\n" +
-        "Total Taxes:\t\tRM "+ String.format("%.2f", new BigDecimal(record.getTotalTax())) + "\n" +
-        "Total Payment: \tRM " + String.format("%.2f", new BigDecimal(record.getTotalPayment())) + "\n" + pattern
+        "Gender:\t\t" + this.getCustomer().getGender() + "\n" +
+        "E-mail:\t\t" + this.getCustomer().getEmail() + "\n" +
+        "Phone Number:\t" + this.getCustomer().getPhoneNumber() + "\n" +
+        "Delivery Address:\t" + this.getCustomer().getAddress()+ "\n" +
+        "\n\nOrder Details\n" + pattern + "\n" +
+        "Order Id:\t\t" + this.getRecordId() + "\n" +
+        "Order Date:\t\t" + this.getCreated()+ "\n" + 
+        "Price: \tRM " + 
+        String.format("%.2f", new BigDecimal(this.getTotalPrice())) + "\n" +
+        "Products: \t";
+        
+        for (Item item: this.getProducts())
+        {
+            result += " - " + item.getProductName() + "\n";
+        }
+        
+        result += "\nDelivery Staff:\t\t" + this.getStaff().getUsername() + "\n" +
+        "Delivery Status:\t" + this.getDeliveryStatus() + "\n" +
+        "Paid Status:\t\t" + this.getPaidStatus() + "\n";
+        return result;
     }
 
     public float calculateTotal()

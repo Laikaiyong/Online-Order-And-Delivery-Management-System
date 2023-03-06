@@ -93,18 +93,25 @@ public class ShoppingController {
         );
         return new ArrayList<>(list);
     }
+        
+    public Order filteredOrderById(String orderId)
+    {
+        List<Order> list = (List<Order>) this.orders.clone();
+        list.removeIf(order -> 
+                !order.getRecordId().equals(orderId)
+        );
+        return new ArrayList<>(list).get(0);
+    }
     
     public ArrayList<Item> filteredItem(String[] itemIds)
     {
-        System.out.println(this.item);
         List<Item> oriItems = (List<Item>) this.item.clone();
         ArrayList<Item> result = new ArrayList<> ();
         for (Item product: oriItems) {
             for (String itemId : itemIds) {
-                if (!itemId.equals("")) {
-                    if (product.getProductId().equals(itemId)) {
-                        result.add(product);
-                    }
+                if (!itemId.equals("") && product.getProductId().equals(itemId)) {
+                    System.out.println(product);
+                    result.add(product);
                 }
             }
         }
@@ -127,6 +134,15 @@ public class ShoppingController {
         List<Feedback> list = (List<Feedback>) this.feedback.clone();
         list.removeIf(fb -> 
                 !fb.getFeedbackId().equals(feedbackId)
+        );
+        return new ArrayList<>(list);
+    }
+    
+    public ArrayList<Order> filteredOrderByStaff(String staffId)
+    {
+        List<Order> list = (List<Order>) this.orders.clone();
+        list.removeIf(od -> 
+                !od.getStaff().getPersonalId().equals(staffId)
         );
         return new ArrayList<>(list);
     }

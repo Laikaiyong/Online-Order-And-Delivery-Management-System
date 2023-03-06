@@ -45,7 +45,7 @@ public class Cart extends ShoppingGuides {
         String productIds = "";
         for (Item product: this.products)
         {
-            productIds += product.getProductId() + "&";
+            productIds += product.getProductId() + "$";
         }
         
         return productIds;
@@ -60,6 +60,11 @@ public class Cart extends ShoppingGuides {
     public void removeItem(Item product)
     {
         this.products.remove(product);
+    }
+        
+    public void checkout()
+    {
+        this.products = new ArrayList<> ();
     }
     
     public String getRecordId()

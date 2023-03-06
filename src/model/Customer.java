@@ -5,7 +5,6 @@
 package model;
 
 import java.util.ArrayList;
-import service.Security;
 import model.parent.User;
 import service.GeneraFileHandler;
 import service.ShoppingController;
@@ -96,13 +95,11 @@ public class Customer extends User {
             String password
     ) {
         String personalId = new UUIDGenerator().generateUniqueKey();
-        Security secureAgent = new Security();
-        String encryptedPass = secureAgent.encrypt(password);
         
         Customer newCustomer = new Customer();
         newCustomer.setPersonalId(personalId);
         newCustomer.setUsername(username);
-        newCustomer.setPassword(encryptedPass);
+        newCustomer.setPassword(password);
         
         return newCustomer;
     }

@@ -80,6 +80,10 @@ public class Item {
     {
         this.inStockQuantity = quantity;
     }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
     
     public void addQuantity(int quantity)
     {

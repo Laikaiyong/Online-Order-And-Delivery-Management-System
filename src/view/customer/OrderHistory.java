@@ -4,7 +4,15 @@
  */
 package view.customer;
 
+import java.awt.print.PrinterException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Feedback;
+import model.Item;
+import model.Order;
+import service.GeneraFileHandler;
+import service.UUIDGenerator;
 import view.Auth;
 import view.PopUp;
 
@@ -13,12 +21,14 @@ import view.PopUp;
  * @author USER
  */
 public class OrderHistory extends javax.swing.JFrame {
-
+    String orderId = "";
+    
     /**
      * Creates new form OrderHistory
      */
     public OrderHistory() {
         initComponents();
+        setupComponents();
     }
 
     /**
@@ -31,7 +41,19 @@ public class OrderHistory extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
+        printButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        receiptArea = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        ordersTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        reviewField = new javax.swing.JTextField();
+        ratingCombo = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        exitButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         exitButton2 = new javax.swing.JButton();
         profileHyperlink2 = new javax.swing.JLabel();
@@ -41,26 +63,150 @@ public class OrderHistory extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        printButton.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        printButton.setText("Print Receipt");
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
+
+        receiptArea.setColumns(20);
+        receiptArea.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        receiptArea.setRows(5);
+        receiptArea.setText("Receipt\n");
+        jScrollPane1.setViewportView(receiptArea);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(printButton)
+                .addContainerGap())
+        );
+
+        ordersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "products", "customer", "total price", "delivery status", "paid status", "created", "staff"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        ordersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ordersTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(ordersTable);
+
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
+        jLabel1.setText("Order History");
+
+        jLabel2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jLabel2.setText("Rating");
+
+        ratingCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+
+        jLabel3.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jLabel3.setText("Feedback");
+
+        exitButton3.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        exitButton3.setText("Submit");
+        exitButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(reviewField, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ratingCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(179, 179, 179))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(12, 12, 12)
+                .addComponent(reviewField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ratingCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(exitButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 204, 102));
@@ -153,11 +299,8 @@ public class OrderHistory extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,6 +343,113 @@ public class OrderHistory extends javax.swing.JFrame {
         new OrderHistory().setVisible(true);
     }//GEN-LAST:event_orderHyperlink2MouseClicked
 
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        try
+        {
+            boolean complete = receiptArea.print();
+            if(complete)
+            {
+                new PopUp().successMessage("Success", "Report Printed Successfully");
+            }
+            else
+            {
+                new PopUp().errorMessage("Printing Cancelled", "Report Printing Terminated");
+            }
+        }
+        catch(PrinterException e)
+        {
+            new PopUp().errorMessage("Printing Error", "Some error occured");
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
+
+    private void ordersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersTableMouseClicked
+        try
+        {
+            int selectedRow = ordersTable.getSelectedRow();
+            if (selectedRow >= 0)
+            {
+                String selectedOrderId = String.valueOf(
+                    ordersTable.getModel().getValueAt(selectedRow, 0)
+                );
+                orderId = selectedOrderId;
+                for(Order record: new Auth().shoppingController.orders)
+                {
+                    if(record.getRecordId().equals(selectedOrderId))
+                    {
+                        receiptArea.setText("Receipt\n\n" + record.generateReceipt(new Auth().shoppingController));
+                        break;
+                    }
+                }
+            }
+        }
+        catch(NumberFormatException excep)
+        {
+            System.err.println("No row being selected");
+        }
+    }//GEN-LAST:event_ordersTableMouseClicked
+
+    private void exitButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButton3ActionPerformed
+        String review = reviewField.getText();
+        int rating = Integer.parseInt((String) ratingCombo.getModel().getSelectedItem());
+        
+        Feedback feedback = new Feedback(
+                new UUIDGenerator().generateUniqueKey(),
+                review,
+                rating,
+                new Auth().userController.filteredCustomerId(
+                        new Auth().userController.loginedUserId
+                ).getUsername(),
+                orderId
+        );
+        ArrayList<Feedback> feedbacks = new Auth().shoppingController.feedback;
+        feedbacks.add(feedback);
+        
+        new GeneraFileHandler().updateFeedbackFile(feedbacks);
+        
+        new PopUp().successMessage("Feedback submitted", "Your feedback had been notified to delivery staff");
+        reviewField.setText("");
+        ratingCombo.getModel().setSelectedItem("1");
+    }//GEN-LAST:event_exitButton3ActionPerformed
+
+    
+    private void setupComponents()
+    {
+        ArrayList<Order> orders = new Auth().shoppingController.orders;
+        DefaultTableModel tableModel =  (DefaultTableModel) ordersTable.getModel();
+        tableModel.setRowCount(0);
+
+        try {
+            for (Order order: orders)
+            {
+                String orderProducts = "";
+                for (Item item: order.getProducts())
+                {
+                    System.out.println(item);
+                    orderProducts += item.getProductName() + ", ";
+                }
+                
+                if (order.getCustomer().getPersonalId().equals(new Auth().userController.loginedUserId))
+                {
+                    tableModel.addRow(
+                    new Object[]
+                        {
+                            order.getRecordId(),
+                            orderProducts,
+                            order.getCustomer().getUsername(),
+                            order.getTotalPrice(),
+                            order.getDeliveryStatus(),
+                            order.getPaidStatus(),
+                            order.getCreated().toString(),
+                            order.getStaff().getUsername()
+                        }
+                    );
+                }
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -238,11 +488,23 @@ public class OrderHistory extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cartHyperlink2;
     private javax.swing.JButton exitButton2;
+    private javax.swing.JButton exitButton3;
     private javax.swing.JLabel homeHyperlink2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel orderHyperlink2;
+    private javax.swing.JTable ordersTable;
+    private javax.swing.JButton printButton;
     private javax.swing.JLabel profileHyperlink2;
+    private javax.swing.JComboBox<String> ratingCombo;
+    private javax.swing.JTextArea receiptArea;
+    private javax.swing.JTextField reviewField;
     // End of variables declaration//GEN-END:variables
 }

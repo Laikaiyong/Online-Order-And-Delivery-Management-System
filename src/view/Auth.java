@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.parent.User;
+import service.GeneraFileHandler;
 import service.ShoppingController;
 import service.UserController;
 import view.admin.BusinessDashboard;
@@ -49,7 +50,7 @@ public class Auth extends javax.swing.JFrame {
                 String[] roleCredentials = loginId.split(" ");
                 if (!roleCredentials[1].equals(""))
                 {
-                    userController.setLoginedUserId(roleCredentials[1]);
+                    new GeneraFileHandler().setLoginUserId(roleCredentials[1]);
                     new PopUp().successMessage("Login Successfully", "Success");
                     setVisible(false);
                     switch (roleCredentials[0]) {
