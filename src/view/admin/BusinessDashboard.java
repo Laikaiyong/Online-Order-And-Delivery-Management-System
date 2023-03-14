@@ -6,6 +6,8 @@ package view.admin;
 
 import java.awt.print.PrinterException;
 import javax.swing.JOptionPane;
+import model.Feedback;
+import model.Order;
 import service.ShoppingController;
 import service.UserController;
 import view.Auth;
@@ -333,8 +335,46 @@ public class BusinessDashboard extends javax.swing.JFrame {
         UserController users = new Auth().userController;
         ShoppingController shopping = new Auth().shoppingController;
         
-        userText.setText("Total user\n" + Integer.toString(users.admins.size() + users.customers.size() + users.deliveryStaff.size()));
-        orderText.setText("Total order\n" + Integer.toString(shopping.orders.size()));
+        float overallRating = 0f;
+        int paidOrders = 0;
+        int unpaidOrders = 0;
+        int pendingNum = 0;
+        int successNum = 0;
+        int outForDeliveryNum = 0;
+        
+        
+        for (Order order: shopping.orders)
+        {
+            if (order.getPaidStatus() == true)
+            {
+                paidOrders++;
+            }
+            else
+            {
+                unpaidOrders++;
+            }
+             switch (order.getDeliveryStatus()) {
+                    case "Pending":
+                        pendingNum += 1;
+                        break;
+                    case "Delivered":
+                        successNum += 1;
+                        break;
+                    default:
+                        outForDeliveryNum += 1;
+                        break;
+                }
+        }
+        
+        for (Feedback fb: shopping.feedback)
+        {
+            overallRating += fb.getRating();
+        }
+        
+        overallRating /= shopping.feedback.size();
+        
+        userText.setText("Total user     " + Integer.toString(users.admins.size() + users.customers.size() + users.deliveryStaff.size()));
+        orderText.setText("Total order     " + Integer.toString(shopping.orders.size()));
         
         reportArea.setText(
             "Summary report\n\n" + "Users: " + Integer.toString(users.admins.size() + users.customers.size() + users.deliveryStaff.size()) +
@@ -342,7 +382,15 @@ public class BusinessDashboard extends javax.swing.JFrame {
             "\nAdmin: " + Integer.toString(users.admins.size()) +
            "\nDelivery Staff: " + Integer.toString(users.deliveryStaff.size()) +
            "\n\nOrders: " + Integer.toString(shopping.orders.size()) +
-           "\nFeedback: " + Integer.toString(shopping.feedback.size()));
+           "\nFeedback: " + Integer.toString(shopping.feedback.size()) +
+           "\n\nOrder summary details\n" + 
+           "\nLatest Order: " + shopping.orders.get(shopping.orders.size() - 1).getCreated().toString() +
+           "\nPaid Order: " + Integer.toString(paidOrders) +
+           "\nPending payment Order: " + Integer.toString(unpaidOrders) +
+           "\nPending Delivery Order: " + Integer.toString(pendingNum) +
+           "\nDelivering Order: " + Integer.toString(outForDeliveryNum) +
+           "\nDelivered Order: " + Integer.toString(successNum) +
+           "\nOverall rating: " + Float.toString(overallRating));
     }
     /**
      * @param args the command line arguments

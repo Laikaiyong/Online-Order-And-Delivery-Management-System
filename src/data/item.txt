@@ -1,3 +1,3 @@
-0f321c22-f14c-403d-82ec-f55290555afe, Tanks, Tanks top for summer, 15.000000, 100, 0c2c16e4-a3e0-4878-b6e6-5ea3ff5332ba
+0f321c22-f14c-403d-82ec-f55290555afe, Tanks, Tanks top for summer, 15.000000, 99, 0c2c16e4-a3e0-4878-b6e6-5ea3ff5332ba
 c8979608-f900-4ca2-8deb-4ddd12ac6055, Denim shorts, Denim cool shorts, 49.900002, 150, 0c2c16e4-a3e0-4878-b6e6-5ea3ff5332ba
 97a1a2c9-9d63-4825-9701-27ad1d6e1d3d, Fans, light white fans, 100.150002, 50, 9bc5d7c4-96d5-45e7-932f-012b459bf807

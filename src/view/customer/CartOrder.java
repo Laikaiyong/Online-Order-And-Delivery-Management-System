@@ -881,7 +881,7 @@ public class CartOrder extends javax.swing.JFrame {
                     personalCart.getCustomer(),
                     total,
                     "Pending",
-                    false,
+                    true,
                     LocalDate.now(),
                     users.deliveryStaff.get(0)
             );

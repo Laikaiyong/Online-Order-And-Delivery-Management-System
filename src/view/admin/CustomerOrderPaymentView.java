@@ -4,10 +4,12 @@
  */
 package view.admin;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Category;
 import model.DeliveryStaff;
 import model.Feedback;
 import model.Item;
@@ -73,6 +75,8 @@ public class CustomerOrderPaymentView extends javax.swing.JFrame {
         staffText = new javax.swing.JLabel();
         createdText = new javax.swing.JLabel();
         staffCombo = new javax.swing.JComboBox<>();
+        searchField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -364,6 +368,23 @@ public class CustomerOrderPaymentView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        searchField.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchFieldKeyPressed(evt);
+            }
+        });
+
+        searchButton.setBackground(new java.awt.Color(255, 204, 102));
+        searchButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        searchButton.setForeground(new java.awt.Color(255, 255, 255));
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -376,15 +397,28 @@ public class CustomerOrderPaymentView extends javax.swing.JFrame {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(49, 49, 49)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(searchButton)))
                 .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchButton)
+                            .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -469,6 +503,74 @@ public class CustomerOrderPaymentView extends javax.swing.JFrame {
         new CustomerOrderPaymentView().setVisible(true);
     }//GEN-LAST:event_updateButton1ActionPerformed
 
+    private void searchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            searchRecord();
+        }
+    }//GEN-LAST:event_searchFieldKeyPressed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchRecord();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private String searchRecord()
+    {
+        ArrayList<Order> orders = new Auth().shoppingController.orders;
+        String searchPhrase = searchField.getText();
+        searchTable(searchPhrase);
+        
+        int index = 0;
+          for(Order record: orders)
+          {
+              if(record.getCustomer().getUsername().equals(searchPhrase))
+              {
+                  manipulateForm(index);
+                  return "Found";
+              }
+              index++;
+          }
+        return "";
+    }
+    
+    private void searchTable(String searchphrase)
+    {
+        if (searchphrase.isEmpty() || searchphrase.equals(""))
+        {
+            setValues();
+        }
+        else
+        {
+            ArrayList<Order> orders = new Auth().shoppingController.orders;
+            DefaultTableModel tableModel = (DefaultTableModel) orderTable.getModel();
+            tableModel.setRowCount(0);
+            try {
+                int index = 0;
+               for (Order order: orders)
+                {
+                    if (order.getCustomer().getUsername().equals(searchphrase))
+                    {
+                    tableModel.addRow(
+                        new Object[]
+                            {
+                                order.getRecordId(),
+                                orderProducts,
+                                order.getCustomer().getUsername(),
+                                order.getTotalPrice(),
+                                order.getDeliveryStatus(),
+                                order.getPaidStatus(),
+                                order.getCreated().toString(),
+                                order.getStaff().getUsername()
+                            }
+                    );
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+    }
+    
     private void setValues()
     {
         int pendingNum = 0;
@@ -679,6 +781,8 @@ public class CustomerOrderPaymentView extends javax.swing.JFrame {
     private javax.swing.JLabel orderViewHyperlink;
     private javax.swing.JLabel paidText;
     private javax.swing.JLabel productsText;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
     private javax.swing.JComboBox<String> staffCombo;
     private javax.swing.JLabel staffText;
     private javax.swing.JLabel totalPriceText;
