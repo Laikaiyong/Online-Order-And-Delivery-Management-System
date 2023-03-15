@@ -65,10 +65,10 @@ public class OrderDelivery extends javax.swing.JFrame {
         productsText = new javax.swing.JLabel();
         customerNameText = new javax.swing.JLabel();
         totalPriceText = new javax.swing.JLabel();
-        paidText = new javax.swing.JLabel();
         staffText = new javax.swing.JLabel();
         createdText = new javax.swing.JLabel();
         deliveryStatusCombo = new javax.swing.JComboBox<>();
+        paidStatusToggle = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,9 +240,6 @@ public class OrderDelivery extends javax.swing.JFrame {
         totalPriceText.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         totalPriceText.setText("-");
 
-        paidText.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        paidText.setText("-");
-
         staffText.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         staffText.setText("-");
 
@@ -251,6 +248,13 @@ public class OrderDelivery extends javax.swing.JFrame {
 
         deliveryStatusCombo.setFont(new java.awt.Font("Poppins", 0, 11)); // NOI18N
         deliveryStatusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        paidStatusToggle.setText("paid");
+        paidStatusToggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paidStatusToggleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -275,7 +279,7 @@ public class OrderDelivery extends javax.swing.JFrame {
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(paidText, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(paidStatusToggle))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -301,7 +305,7 @@ public class OrderDelivery extends javax.swing.JFrame {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(createdText, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(deliveryStatusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 166, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -325,11 +329,11 @@ public class OrderDelivery extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(totalPriceText))
-                .addGap(33, 33, 33)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(paidText))
-                .addGap(25, 25, 25)
+                    .addComponent(paidStatusToggle))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(staffText))
@@ -361,13 +365,13 @@ public class OrderDelivery extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Orders, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Orders, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -433,9 +437,9 @@ public class OrderDelivery extends javax.swing.JFrame {
         ShoppingController controller = new Auth().shoppingController;
         ArrayList<Order> orders = controller.orders;
         Order order = controller.filteredOrderById(orderIdText.getText());
-        System.out.println(order);
         int index = orders.indexOf(order);
         order.setDeliveryStatus((String) deliveryStatusCombo.getModel().getSelectedItem());
+        order.setPaidStatus(paidStatusToggle.getModel().isSelected());
         
         orders.set(index, order);
         
@@ -444,6 +448,10 @@ public class OrderDelivery extends javax.swing.JFrame {
         dispose();
         new OrderDelivery().setVisible(true);
     }//GEN-LAST:event_updateButton1ActionPerformed
+
+    private void paidStatusToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paidStatusToggleActionPerformed
+//
+    }//GEN-LAST:event_paidStatusToggleActionPerformed
 
     
     private void setupComponents()
@@ -541,7 +549,7 @@ public class OrderDelivery extends javax.swing.JFrame {
             productsText.setText(orderProducts);
             customerNameText.setText(orders.get(recordNumber).getCustomer().getUsername());
             totalPriceText.setText(Float.toString(orders.get(recordNumber).getTotalPrice()));
-            paidText.setText(Boolean.toString(orders.get(recordNumber).getPaidStatus()));
+            paidStatusToggle.setSelected(orders.get(recordNumber).getPaidStatus());
             staffText.setText(orders.get(recordNumber).getStaff().getUsername());
             createdText.setText(orders.get(recordNumber).getCreated().toString());
             deliveryStatusCombo.getModel().setSelectedItem(orders.get(recordNumber).getDeliveryStatus());
@@ -553,7 +561,7 @@ public class OrderDelivery extends javax.swing.JFrame {
             productsText.setText("-");
             customerNameText.setText("-");
             totalPriceText.setText("-");
-            paidText.setText("-");
+            paidStatusToggle.setSelected(false);
             staffText.setText("-");
             createdText.setText("-");
             deliveryStatusCombo.getModel().setSelectedItem("-");
@@ -618,7 +626,7 @@ public class OrderDelivery extends javax.swing.JFrame {
     private javax.swing.JLabel orderIdText;
     private javax.swing.JLabel orderProducts;
     private javax.swing.JTable orderTable;
-    private javax.swing.JLabel paidText;
+    private javax.swing.JToggleButton paidStatusToggle;
     private javax.swing.JLabel productsText;
     private javax.swing.JLabel staffText;
     private javax.swing.JLabel totalPriceText;

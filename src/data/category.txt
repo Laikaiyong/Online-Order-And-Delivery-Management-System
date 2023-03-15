@@ -1,2 +1,3 @@
 9bc5d7c4-96d5-45e7-932f-012b459bf807, Electronics, Electronice appliances for household use case
-0c2c16e4-a3e0-4878-b6e6-5ea3ff5332ba, Clothing, Tops shirts and bottoms.
+0c2c16e4-a3e0-4878-b6e6-5ea3ff5332ba, Cloth, shirts for fashionable nite
+1e23af4e-45bc-4778-bcbd-fab54ae65d17, Beverages, drinks
